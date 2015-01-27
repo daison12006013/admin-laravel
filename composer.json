@@ -1,0 +1,20 @@
+{
+    "name": "daison/admin",
+    "description": "",
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Daison\\Admin": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
