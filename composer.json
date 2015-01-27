@@ -1,6 +1,8 @@
 {
     "name": "daison/admin",
-    "description": "",
+    "description": "Ready made administrator application, you just need to configure and do some code stuff",
+    "keywords": ["laravel", "admin", "bootstrap"],
+    ""
     "authors": [
         {
             "name": "Daison Carino",
