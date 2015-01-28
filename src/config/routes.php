@@ -2,13 +2,14 @@
 
 return [
 
-  // Add your own routes here, dedicated for Admin Package, or do it manually to your route
-  
-  //EX:
-  // [route_name] => [
-  //   'process' => 'get', // get or post
-  //   'url'     => '/',   // the url to use
-  //   'uses'    => 'HomeController@index',    // the controller and function name
+  // --------------
+  // YOUR CODE HERE
+  // --------------
+  // Ex:
+  // 'route_name' => [
+  //   'process' => 'get',                      -     You can use get/post
+  //   'url'     => '/admin/my-link-here',      -     Use /admin or putting your own custom link
+  //   'uses'    => 'MyController@myMethod',    -     Tell us the controller
   // ],
 
 
@@ -16,9 +17,10 @@ return [
 
 
 
-  // ----------------------------------------------------------------------------
-  // DO NOT EDIT BELOW
-  // ----------------------------------------------------------------------------
+
+  // ----------------------------------------------------------------
+  // DO NOT EDIT BELOW THIS AREA IF YOU DONT KNOW WHAT YOU ARE DOING
+  // ----------------------------------------------------------------
   'admin' => [
     'process' => 'get',
     'url'     => '/admin',
@@ -49,10 +51,11 @@ return [
     'uses'    => 'Daison\Admin\App\Controllers\UserController@profile',
   ],
 
-  'admin_user_settings' => [
+  'admin_user_lists' => [
     'process' => 'get',
-    'url'     => '/admin/user/settings',
-    'uses'    => 'Daison\Admin\App\Controllers\UserController@settings',
+    'url'     => '/admin/user/lists',
+    'roles'   => ['superuser'],
+    'uses'    => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
 
 ];

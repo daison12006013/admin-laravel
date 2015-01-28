@@ -64,10 +64,11 @@ return [
         'name' => 'Users',
         'icon' => 'fa fa-users fa-fw',
         'url' => '#',
+        'roles' => ['superuser'],
         'items' => [
             'lists' => [
                 'name' => 'Lists',
-                'url' => '',
+                'url' => '/admin/user/lists',
             ],
         ],
     ],
