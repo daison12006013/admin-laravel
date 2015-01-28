@@ -1,4 +1,4 @@
-<?php
+<?php namespace Daison\Admin\App\Models;
 
 class Role extends \Eloquent
 {
@@ -7,6 +7,6 @@ class Role extends \Eloquent
 
   public function users()
   {
-    return $this->belongsToMany('User', 'user_has_role');
+    return $this->belongsToMany('Daison\Admin\App\Models\User', 'user_has_role');
   }
 }

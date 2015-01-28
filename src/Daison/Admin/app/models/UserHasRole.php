@@ -1,4 +1,4 @@
-<?php
+<?php namespace Daison\Admin\App\Models;
 
 class UserHasRole extends \Eloquent
 {

@@ -2,15 +2,20 @@
 
 return [
 
-  // --------------
-  // YOUR CODE HERE
-  // --------------
-  // Ex:
-  // 'route_name' => [
-  //   'process' => 'get',                      -     You can use get/post
-  //   'url'     => '/admin/my-link-here',      -     Use /admin or putting your own custom link
-  //   'uses'    => 'MyController@myMethod',    -     Tell us the controller
-  // ],
+  // ----------------
+  // YOUR ROUTES HERE
+  // ----------------
+  'admin_home' => [
+    'process' => 'get',
+    'url'     => '/admin/dashboard',
+    // 'acl'     => ['a'],
+    'uses'    => 'Daison\Admin\App\Controllers\DashboardController@index',
+  ],
+
+
+
+
+
 
 
 
@@ -25,12 +30,6 @@ return [
     'process' => 'get',
     'url'     => '/admin',
     'uses'    => 'Daison\Admin\App\Controllers\SecurityController@index',
-  ],
-
-  'admin_dashboard' => [
-    'process' => 'get',
-    'url'     => Config::get('admin::general.homepage_url'),
-    'uses'    => Config::get('admin::general.homepage_controller'),
   ],
 
   'admin_security_login' => [
@@ -56,7 +55,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/lists',
     'is_auth'           => true,
-    'roles'             => ['superuser'],
+    'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
 

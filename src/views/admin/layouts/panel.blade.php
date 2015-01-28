@@ -64,7 +64,7 @@
 
                   <h5 class="centered">{{$user['first_name']}} {{$user['last_name']}}</h5>
 
-                  @foreach (Config::get('admin::navs') as $first_level => $val)
+                  @foreach (Config::get('admin::navigator') as $first_level => $val)
 
 
                       <li class="sub-menu">

@@ -1,11 +1,11 @@
-<?php
+<?php namespace Daison\Admin\App\Models;
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends \Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
@@ -26,6 +26,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
   public function roles()
   {
-    return $this->belongsToMany('Role', 'user_has_role');
+    return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role');
   }
 }

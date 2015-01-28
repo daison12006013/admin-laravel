@@ -16,7 +16,7 @@ class SecurityController extends BaseController
       return \Redirect::to('/admin/dashboard');
     }
 
-    return \Redirect::to('/admin')->withError(\Config::get('admin::general.user_not_found_message'));
+    return \Redirect::to('/admin')->withError(\Config::get('admin::lang\lang.user_not_found_message'));
   }
 
   public function logout()
