@@ -27,6 +27,8 @@ class AdminServiceProvider extends ServiceProvider {
 
 		include __DIR__ . '/app/router.php';
 		include __DIR__ . '/app/filters.php';
+
+		Router::getInstance()->start(\Config::get('admin::routes'));
 	}
 
 	/**

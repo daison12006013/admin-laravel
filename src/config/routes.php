@@ -40,22 +40,24 @@ return [
   ],
 
   'admin_security_logout' => [
-    'process' => 'get',
-    'url'     => '/admin/security/logout',
-    'uses'    => 'Daison\Admin\App\Controllers\SecurityController@logout',
+    'process'           => 'get',
+    'url'               => '/admin/security/logout',
+    'uses'              => 'Daison\Admin\App\Controllers\SecurityController@logout',
   ],
 
   'admin_user_profile' => [
-    'process' => 'get',
-    'url'     => '/admin/user/profile',
-    'uses'    => 'Daison\Admin\App\Controllers\UserController@profile',
+    'process'           => 'get',
+    'url'               => '/admin/user/profile',
+    'is_auth'           => true,
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@profile',
   ],
 
   'admin_user_lists' => [
-    'process' => 'get',
-    'url'     => '/admin/user/lists',
-    'roles'   => ['superuser'],
-    'uses'    => 'Daison\Admin\App\Controllers\UserController@lists',
+    'process'           => 'get',
+    'url'               => '/admin/user/lists',
+    'is_auth'           => true,
+    'roles'             => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
 
 ];
