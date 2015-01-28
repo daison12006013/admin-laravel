@@ -29,14 +29,49 @@ return [
         'url' => '#',
         'items' => [
             'report1' => [
-                'name' => 'Report 1',
-                'url' => '/admin/report/1',
+                'name' => 'Import Courier A',
+                'url' => '/admin/report/import-courier-a',
             ],
             'report2' => [
-                'name' => 'Report 2',
-                'url' => '/admin/report/2',
+                'name' => 'Import Courier B',
+                'url' => '/admin/report/import-courier-b',
             ],
         ],
     ],
+
+
+
+    // ----------------------------------------------------------------
+    // DO NOT EDIT BELOW THIS AREA IF YOU DONT KNOW WHAT YOU ARE DOING
+    // ----------------------------------------------------------------
+    'settings' => [
+        'name' => 'Settings',
+        'icon' => 'fa fa-cogs fa-fw',
+        'url' => '#',
+        'items' => [
+            'change_password' => [
+                'name' => 'Change Password',
+                'url' => '/admin/settings/change-password',
+            ],
+            'account' => [
+                'name' => 'Information',
+                'url' => '/admin/settings/information',
+            ],
+        ],
+    ],
+
+    'users' => [
+        'name' => 'Users',
+        'icon' => 'fa fa-users fa-fw',
+        'url' => '#',
+        'items' => [
+            'lists' => [
+                'name' => 'Lists',
+                'url' => '',
+            ],
+        ],
+    ],
+
+];
 
 ];
