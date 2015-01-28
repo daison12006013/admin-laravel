@@ -24,11 +24,7 @@ class AdminServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('daison/admin');
-
-		include __DIR__ . '/app/router.php';
-		include __DIR__ . '/app/filters.php';
-
-		Router::getInstance()->start(\Config::get('admin::routes'));
+		Admin::getInstance()->start(\Config::get('admin::routes'));
 	}
 
 	/**
