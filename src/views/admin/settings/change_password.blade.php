@@ -13,14 +13,29 @@ Change your password
 
 @section('content')
   <div class="col-sm-6">
-    {{Form::open(['class' => 'form-horizontal'])}}
+    @if (Session::has('success'))
+      <div class="alert alert-success">{{Session::get('success')}}</div>
+    @endif
+
+    @if (Session::has('error'))
+      <div class="alert alert-danger">{{Session::get('error')}}</div>
+    @endif
+    
+    {{Form::open()}}
       <div class="form-group">
         <label>Old Password</label>
-        <input type="text" name="old_password" class="form-control">
+        <input type="password" required name="old_password" class="form-control">
       </div>
       <div class="form-group">
         <label>Re-type Old Password</label>
-        <input type="text" name="re_old_password" class="form-control">
+        <input type="password" required name="re_old_password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" required name="new_password" class="form-control">
+      </div>
+      <div class="form-group pull-right">
+        <button type="submit" class="btn btn-success">Change</button>
       </div>
     {{Form::close()}}
   </div>

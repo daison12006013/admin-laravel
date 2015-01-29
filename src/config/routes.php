@@ -8,7 +8,6 @@ return [
   'admin_home' => [
     'process' => 'get',
     'url'     => '/admin/dashboard',
-    // 'acl'     => ['a'],
     'uses'    => 'Daison\Admin\App\Controllers\DashboardController@index',
   ],
 
@@ -59,11 +58,18 @@ return [
     'uses'              => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
 
-  'admin_settings_changepassword' => [
+  'admin_changepass' => [
     'process'           => 'get',
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@changePassword',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@showChangePassword',
+  ],
+
+  'admin_changepass_save' => [
+    'process'           => 'post',
+    'url'               => '/admin/settings/change-password',
+    'is_auth'           => true,
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@savePassword',
   ]
 
 ];

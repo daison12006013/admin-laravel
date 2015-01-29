@@ -13,10 +13,12 @@ class SecurityController extends BaseController
     $password = \Input::get('password');
 
     if (\Auth::attempt(array('email' => $email, 'password' => $password))) {
+      \Session::put('roles', \Auth::user()->roles);
       return \Redirect::to('/admin/dashboard');
     }
 
-    return \Redirect::to('/admin')->withError(\Config::get('admin::lang\lang.user_not_found_message'));
+
+    return \Redirect::to('/admin')->withError(\Config::get('admin::lang/lang.user_not_found_message'));
   }
 
   public function logout()

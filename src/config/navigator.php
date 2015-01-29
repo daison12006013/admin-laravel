@@ -53,9 +53,9 @@ return [
                 'name' => 'Change Password',
                 'url' => '/admin/settings/change-password',
             ],
-            'account' => [
-                'name' => 'Information',
-                'url' => '/admin/settings/information',
+            'profile' => [
+                'name' => 'Profile',
+                'url' => '/admin/settings/profile',
             ],
         ],
     ],

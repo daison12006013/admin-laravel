@@ -66,6 +66,21 @@
 
                   @foreach (Config::get('admin::navigator') as $first_level => $val)
 
+                      <?php 
+                        if (isset($val['roles']) && count($val['roles']) > 0) {
+                          $has_access = false;
+                          foreach (Session::get('roles') as $role) {
+                            if (in_array($role['name'], $val['roles'])) {
+                              $has_access = true;
+                              break;
+                            }
+                          }
+
+                          if (!$has_access) {
+                            continue;
+                          }
+                        }
+                      ?>
 
                       <li class="sub-menu">
                         <?php
@@ -89,6 +104,24 @@
                           @if ($has_first_level)
                               <ul class="sub">
                                   @foreach ($val['items'] as $second_val)
+
+                                    <?php 
+                                      if (isset($second_val['roles']) && count($second_val['roles']) > 0) {
+                                        $has_access = false;
+                                        foreach (Session::get('roles') as $role) {
+                                          if (in_array($role['name'], $second_val['roles'])) {
+                                            $has_access = true;
+                                            break;
+                                          }
+                                        }
+
+                                        if (!$has_access) {
+                                          continue;
+                                        }
+                                      }
+                                    ?>
+
+
                                     <?php
                                       $second_active = '';
                                       if (isset($second_val['active']) && $second_val['active'] == true) {
