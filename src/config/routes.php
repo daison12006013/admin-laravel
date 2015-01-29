@@ -59,4 +59,11 @@ return [
     'uses'              => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
 
+  'admin_settings_changepassword' => [
+    'process'           => 'get',
+    'url'               => '/admin/settings/change-password',
+    'is_auth'           => true,
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@changePassword',
+  ]
+
 ];

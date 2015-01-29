@@ -12,25 +12,63 @@ class Admin
     return $_self;
   }
 
+
   private function _start()
   {
+    // create the routes
     foreach (\Config::get('admin::routes') as $route_name => $val) {
-
-      // always check the auth for each route
-      $this->_checkAuth($val);
-
-      // check the access
-      if (! $this->_checkAccessList($val)) {
-        $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
-        \Log::error($msg);
-        throw new \Exception($msg);
-      }
-
-      // always create the route
       $this->_createRoute($route_name, $val);
     }
-
   }
+
+
+  private function _createRoute($name, $val)
+  {
+    $url = explode('@', $val['uses']);
+    $controller = $url[0];
+    $action = $url[1];
+
+    switch (strtoupper($val['process'])) {
+      case 'GET':
+        \Route::get($val['url'], function() use ($controller, $action, $val) {
+
+          // always check the auth for each route
+          if (! $this->_authCheck($val)) {
+            return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
+          }
+
+          // check the access
+          if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
+            $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
+            \Log::error($msg);
+            return \Response::view('admin::admin.errors.acl', [], 404);
+          }
+
+          return \App::make($controller)->{$action}();
+        });
+      break;
+
+      case 'POST':
+        \Route::post($val['url'], function() use ($controller, $action, $val) {
+
+          // always check the auth for each route
+          if (! $this->_authCheck($val)) {
+            return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
+          }
+
+          // check the access
+          if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
+            $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
+            \Log::error($msg);
+            return \Response::view('admin::admin.errors.acl', [], 404);
+          }
+
+          return \App::make($controller)->{$action}();
+        });
+      break;
+    }
+  }
+
 
   private function _checkAccessList($val)
   {
@@ -58,44 +96,24 @@ class Admin
     }
   }
 
-  private function _checkAuth($val)
+
+  private function _authCheck($val)
   {
     // check current url and match to the url
     if (trim(\URL::current(), '/') == \URL::to($val['url'])) {
 
-
       // matched, then check if is_auth is set and if it is true
       if (isset($val['is_auth']) && $val['is_auth'] == true) {
 
-
         // set, then we need to check if auth or not, redirect.
-        if (! \Auth::check()) {
-          \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang\lang.login_notifier'));
+        if (\Auth::check() == false) {
+          return false;
         }
       }
     }
+
+    return true;
   }
 
-
-  private function _createRoute($name, $val)
-  {
-    switch ($val['process']) {
-      case 'get':
-      case 'GET':
-        \Route::get($val['url'], [
-          'as' => $name,
-          'uses' => $val['uses'],
-        ]);
-      break;
-
-      case 'post':
-      case 'POST':
-        \Route::post($val['url'], [
-          'as' => $name,
-          'uses' => $val['uses'],
-        ]);
-      break;
-    }
-  }
 
 }

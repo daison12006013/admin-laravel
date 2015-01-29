@@ -1,5 +1,5 @@
 <?php
-  $user = array_dot(Auth::user('user.first_name')->toArray());
+  $user = Auth::user('user.first_name');
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -47,7 +47,7 @@
             <!--logo end-->
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="{{URL::route('admin_security_logout')}}">Logout</a></li>
+                    <li><a class="logout" href="{{Config::get('admin::routes.admin_security_logout.url')}}">Logout</a></li>
               </ul>
             </div>
         </header>
@@ -149,7 +149,7 @@
       //custom select box
 
       $(function(){
-          var currentUrl = document.URL;
+          var currentUrl = "<?php echo trim(URL::current(), '/') ?>";
           $("li [data-url=\""+currentUrl+"\"]").addClass('active').closest('.sub-menu').find('.parentLink').click();
       });
 
