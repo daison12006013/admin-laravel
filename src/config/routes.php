@@ -57,6 +57,14 @@ return [
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@lists',
   ],
+  
+  'admin_user_add' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/add',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@addNewUser',
+  ],
 
   'admin_changepass' => [
     'process'           => 'get',
@@ -70,6 +78,7 @@ return [
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
     'uses'              => 'Daison\Admin\App\Controllers\UserController@savePassword',
-  ]
+  ],
+
 
 ];

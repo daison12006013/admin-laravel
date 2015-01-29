@@ -56,4 +56,11 @@ class UserController extends BaseController
 
     return;
   }
+
+  public function lists()
+  {
+    $users = \User::orderBy('last_name','ASC')->paginate(15);
+
+    return \View::make('admin::admin.users.list')->withUsers($users);
+  }
 }
