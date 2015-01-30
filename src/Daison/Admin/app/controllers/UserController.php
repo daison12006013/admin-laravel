@@ -12,7 +12,7 @@ class UserController extends BaseController
     return \View::make('admin::admin.settings.change_password');
   }
 
-  public function updatedPassword()
+  public function updatePassword()
   {
     $old_password = \Input::get('old_password');
     $new_password = \Input::get('new_password');
