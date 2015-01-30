@@ -99,6 +99,22 @@ return [
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveAdd',
   ],
 
+  'admin_user_roles' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/roles/{id}',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@showRoles',
+  ],
+
+  'admin_user_roles_save' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/roles/{id}',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRole',
+  ],
+
   'admin_changepass' => [
     'process'           => 'get',
     'url'               => '/admin/settings/change-password',

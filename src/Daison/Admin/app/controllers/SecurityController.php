@@ -1,5 +1,7 @@
 <?php namespace Daison\Admin\App\Controllers;
 
+use Daison\Admin\App\Models\User;
+
 class SecurityController extends BaseController
 {
   public function index()
@@ -13,7 +15,7 @@ class SecurityController extends BaseController
     $password = \Input::get('password');
 
     if (\Auth::attempt(array('email' => $email, 'password' => $password))) {
-      \Session::put('roles', \Auth::user()->roles);
+      \Session::put('roles', User::find(\Auth::user()->id)->roles);
       return \Redirect::to('/admin/dashboard');
     }
 

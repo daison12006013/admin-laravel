@@ -12,6 +12,7 @@
 @section('content')
   <a href="{{Config::get('admin::routes.admin.url')}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
   <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
+  <a href="#" id="groupBtn" class="btn btn-danger disabled"><i class="fa fa-1x fa-group"></i> Manage Roles</a>
   <hr>
   
   <table class="table table-bordered table-condensed">
@@ -39,15 +40,26 @@
 @section('javascript')
 <script type="text/javascript">
   $(function() {
+
+    $(".userCheckbox").attr("checked", false);
+
     $(".userCheckbox").click(function() {
       var userBoxCount = $(".userCheckbox:checked").length;
       if (userBoxCount == 1) {
         $("#pencilBtn").removeClass("disabled");
+        $("#groupBtn").removeClass("disabled");
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/edit/1";
+        var user_id = $(".userCheckbox:checked").data('user');
+
+        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/edit/"+user_id;
         $("#pencilBtn").attr("href", url);
+
+        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/roles/"+user_id;
+        $("#groupBtn").attr("href", url);
+
       } else {
         $("#pencilBtn").addClass("disabled");
+        $("#groupBtn").addClass("disabled");
       }
     });
   });
