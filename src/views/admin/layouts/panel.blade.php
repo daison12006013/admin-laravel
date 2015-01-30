@@ -45,7 +45,12 @@
             <!--logo start-->
             <a href="{{Config::get('admin::general.homepage_url')}}" class="logo"><b>{{Config::get('admin::general.site_name')}}</b></a>
             <!--logo end-->
-            @include(Config::get('admin::general.top_nav_template'))
+
+            @if (Config::get('admin::general.enable_top_nav'))
+              @include(Config::get('admin::general.top_nav_template'))
+            @endif
+
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                 <li><a class="logout" href="{{Config::get('admin::routes.admin_security_logout.url')}}">Logout <i class="fa fa-sign-out fw"></i></a></li>

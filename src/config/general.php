@@ -18,5 +18,6 @@ return [
   /**
    * Advanced Configuration, You must read the documentation @ github
    */
+  'enable_top_nav'                => false,
   'top_nav_template'              => 'admin::admin.layouts.top_nav_template',
 ];
