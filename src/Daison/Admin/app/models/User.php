@@ -28,4 +28,15 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
   {
     return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role');
   }
+
+  public function updateInformation($post)
+  {
+    $this->first_name = $post['first_name'];
+    $this->middle_name = $post['middle_name'];
+    $this->last_name = $post['last_name'];
+    $this->employee_code = $post['employee_code'];
+    $this->email = $post['email'];
+
+    return $this;
+  }
 }

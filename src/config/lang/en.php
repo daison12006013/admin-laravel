@@ -11,5 +11,7 @@ return [
   'password_up_low_err'       => 'Password must have an upper and lower character.',
   'password_old_pass_and_re'  => 'Old password and Re-type password did not match.',
   'password_db_not_match'     => 'Old password did not match our record.',
-  'password_success'          => 'You have successfully changed your password.'
+  'password_success'          => 'You have successfully changed your password.',
+
+  'user_changed_info_msg'     => 'You have successfully changed this profile.',
 ];

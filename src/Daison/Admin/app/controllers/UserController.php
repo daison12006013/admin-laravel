@@ -10,7 +10,7 @@ class UserController extends BaseController
     return \View::make('admin::admin.settings.change_password');
   }
 
-  public function savePassword()
+  public function updatedPassword()
   {
     $old_password = \Input::get('old_password');
     $new_password = \Input::get('new_password');
@@ -73,5 +73,22 @@ class UserController extends BaseController
     }
 
     return \View::make('admin::admin.users.edit')->withUser($user);
+  }
+
+  public function saveEdit($id)
+  {
+    $post = \Input::all();
+
+    $user = User::find($id);
+
+    if (! $user) {
+      throw new \Exception('User not found');
+    }
+
+    $user->updateInformation($post);
+    $user->save();
+
+    return \View::make('admin::admin.users.edit')->withUser($user)->withSuccessMessage(\Config::get('admin::lang/lang.user_changed_info_msg'));
+
   }
 }
