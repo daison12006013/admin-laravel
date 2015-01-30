@@ -17,16 +17,6 @@ class UserController extends BaseController
 
     $rules = new Rules($new_password);
 
-    $min = \Config::get('admin::general.password_settings.min');
-    $has_number = \Config::get('admin::general.password_settings.has_number');
-    $has_special_char = \Config::get('admin::general.password_settings.has_special_char');
-    $has_upper_and_lower = \Config::get('admin::general.password_settings.has_upper_and_lower');
-
-    $min_m = \Config::get('admin::lang/lang.password_min_err');
-    $has_number_m = \Config::get('admin::lang/lang.password_has_number_err');
-    $has_special_char_m = \Config::get('admin::lang/lang.password_has_special_err');
-    $has_upper_and_lower_m = \Config::get('admin::lang/lang.password_up_low_err');
-
     try {
       if ($old_password != \Input::get('re_old_password')) {
         throw new \Exception(\Config::get('admin::lang/lang.password_old_pass_and_re'));
@@ -36,16 +26,12 @@ class UserController extends BaseController
         throw new \Exception(\Config::get('admin::lang/lang.password_db_not_match'));
       }
 
-      $result = $rules
-        ->setMinimumLength($min, $min_m)
-        ->setRequireAtleastOneNumber($has_number, $has_number_m)
-        ->setRequireAtleastOneSpecialCharacter($has_special_char, $has_special_char_m)
-        ->setRequireUpperAndLower($has_upper_and_lower, $has_upper_and_lower_m)
-        ->check();
+      $this->_checkPasswordRules($new_password);
 
       $user = User::find(\Auth::user()->id);
       $user->password = \Hash::make($new_password);
       $user->save();
+
       return \Redirect
                 ::to(\Config::get('admin::routes.admin_changepass.url'))
                 ->withSuccess(\Config::get('admin::lang/lang.password_success'));
@@ -89,6 +75,70 @@ class UserController extends BaseController
     $user->save();
 
     return \View::make('admin::admin.users.edit')->withUser($user)->withSuccessMessage(\Config::get('admin::lang/lang.user_changed_info_msg'));
+  }
 
+  public function showAdd()
+  {
+    return \View::make('admin::admin.users.add');
+  }
+
+  public function saveAdd()
+  {
+    $post = \Input::all();
+
+    $redirect_to = \Redirect::to(\Config::get('admin::routes.admin_user_add.url'));
+
+    // Try to check the password rules
+    try {
+      $this->_checkPasswordRules($post['password']);
+    } catch(\Exception $e) {
+      return $redirect_to->withError($e->getMessage())->withInput();
+    }
+
+
+    // Now, add the user
+    try {
+      $user = new User;
+      $user->create($post);
+      $user->password = Hash::make($post['password']);
+      $user->save();
+    } catch(\Exception $e) {
+      $msg = \Config::get('admin::lang/lang.user_add_err_msg');
+      return $redirect_to->withInput()->withError($msg);
+    }
+  
+
+    $msg = \Config::get('admin::lang/lang.user_add_info_msg');
+    return $redirect_to->withSuccess($msg);
+  }
+
+
+  private function _checkPasswordRules($password)
+  {
+    $rules = new Rules($password);
+
+    $min = \Config::get('admin::general.password_settings.min');
+    $has_number = \Config::get('admin::general.password_settings.has_number');
+    $has_special_char = \Config::get('admin::general.password_settings.has_special_char');
+    $has_upper_and_lower = \Config::get('admin::general.password_settings.has_upper_and_lower');
+
+    $min_m = \Config::get('admin::lang/lang.password_min_err');
+    $has_number_m = \Config::get('admin::lang/lang.password_has_number_err');
+    $has_special_char_m = \Config::get('admin::lang/lang.password_has_special_err');
+    $has_upper_and_lower_m = \Config::get('admin::lang/lang.password_up_low_err');
+
+    try {
+      $result = $rules
+        ->setMinimumLength($min, $min_m)
+        ->setRequireAtleastOneNumber($has_number, $has_number_m)
+        ->setRequireAtleastOneSpecialCharacter($has_special_char, $has_special_char_m)
+        ->setRequireUpperAndLower($has_upper_and_lower, $has_upper_and_lower_m)
+        ->check();
+
+    } catch (\Exception $e) {
+      throw $e;
+    }
+
+    return true;
   }
 }

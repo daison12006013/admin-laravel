@@ -10,8 +10,8 @@
 @stop
 
 @section('content')
-  <a href="" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
-  <a href="" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
+  <a href="{{Config::get('admin::routes.admin.url')}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
+  <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
   <hr>
   
   <table class="table table-bordered table-condensed">

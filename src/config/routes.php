@@ -74,12 +74,29 @@ return [
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showEdit',
   ],
+
   'admin_user_edit_save' => [
     'process'           => 'post',
     'url'               => '/admin/user/edit/{id}',
     'is_auth'           => true,
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveEdit',
+  ],
+
+  'admin_user_add' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/add',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@showAdd',
+  ],
+
+  'admin_user_add_save' => [
+    'process'           => 'post',
+    'url'               => '/admin/user/add',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveAdd',
   ],
 
   'admin_changepass' => [
@@ -95,6 +112,5 @@ return [
     'is_auth'           => true,
     'uses'              => 'Daison\Admin\App\Controllers\UserController@updatePassword',
   ],
-
 
 ];

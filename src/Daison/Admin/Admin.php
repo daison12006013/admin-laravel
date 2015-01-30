@@ -23,7 +23,7 @@ class Admin
     return;
   }
 
-  public function createRoute($val, $controller, $action, 
+  public function pushRoute($val, $controller, $action, 
       $p1 = null, 
       $p2 = null, 
       $p3 = null, 
@@ -61,7 +61,7 @@ class Admin
     $controller = $url[0];
     $action = $url[1];
 
-    call_user_func_array(array($this, "createRoute"), [$val, $controller, $action]);
+    call_user_func_array(array($this, "pushRoute"), [$val, $controller, $action]);
   }
 
 
