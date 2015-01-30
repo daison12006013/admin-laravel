@@ -2,6 +2,8 @@
 
 use Daison\Admin\App\Models\PasswordRules as Rules;
 use Daison\Admin\App\Models\User;
+use Daison\Admin\App\Models\Role;
+use Daison\Admin\App\Models\UserHasRole;
 
 class UserController extends BaseController
 {
@@ -143,5 +145,32 @@ class UserController extends BaseController
   }
 
 
+  public function showRoles($user_id)
+  {
+    $user = User::find($user_id);
+
+    if (! $user) {
+      throw new Exception('User not found');
+    }
+
+    $user_roles = $user->roles;
+    $available_roles = Role::orderBy('name', 'ASC')->get();
+
+    return \View::make('admin::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
+  }
+
+  public function saveRoles()
+  {
+    
+  }
+
+  public function deleteRole($user_id, $role_id)
+  {
+    $user_has_role = UserHasRole::where('user_id', '=', $user_id)->where('role_id', '=', $role_id);
+
+    $user_has_role->delete();
+
+    return \Redirect::to(\URL::previous());
+  }
   
 }

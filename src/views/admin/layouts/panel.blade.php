@@ -1,5 +1,6 @@
 <?php
   $user = Auth::user('user.first_name');
+  $current_url = URL::to(Route::getCurrentRoute()->getPath());
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -186,7 +187,7 @@
       //custom select box
 
       $(function(){
-          var currentUrl = "<?php echo trim(URL::current(), '/') ?>";
+          var currentUrl = "<?php echo trim($current_url, '/') ?>";
           $("li [data-url=\""+currentUrl+"\"]").addClass('active').closest('.sub-menu').find('.parentLink').click();
       });
 

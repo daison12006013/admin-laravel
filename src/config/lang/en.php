@@ -16,4 +16,6 @@ return [
   'user_changed_info_msg'     => 'You have successfully changed this profile.',
   'user_add_err_msg'          => 'Something went wrong, Email already exists.',
   'user_add_info_msg'         => 'You have successfully added a new account',
+
+  'no_group_found'            => 'No group found.',
 ];

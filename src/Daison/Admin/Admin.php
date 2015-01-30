@@ -84,7 +84,8 @@ class Admin
       }
     }
 
-    if (\URL::to($val['url']) == trim(\URL::current(), '/')) {
+    $current_url = \URL::to(\Route::getCurrentRoute()->getPath());
+    if (\URL::to($val['url']) == trim($current_url, '/')) {
       return false;
     } else {
       return true;
@@ -94,8 +95,10 @@ class Admin
 
   private function _authCheck($val)
   {
+    $current_url = \URL::to(\Route::getCurrentRoute()->getPath());
+
     // check current url and match to the url
-    if (trim(\URL::current(), '/') == \URL::to($val['url'])) {
+    if (trim($current_url, '/') == \URL::to($val['url'])) {
 
       // matched, then check if is_auth is set and if it is true
       if (isset($val['is_auth']) && $val['is_auth'] == true) {

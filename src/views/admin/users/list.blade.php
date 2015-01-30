@@ -51,10 +51,10 @@
 
         var user_id = $(".userCheckbox:checked").data('user');
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/edit/"+user_id;
+        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/edit";
         $("#pencilBtn").attr("href", url);
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/roles/"+user_id;
+        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/roles";
         $("#groupBtn").attr("href", url);
 
       } else {

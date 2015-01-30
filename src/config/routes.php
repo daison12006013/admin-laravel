@@ -69,7 +69,7 @@ return [
   
   'admin_user_edit' => [
     'process'           => 'get',
-    'url'               => '/admin/user/edit/{id}',
+    'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showEdit',
@@ -77,7 +77,7 @@ return [
 
   'admin_user_edit_save' => [
     'process'           => 'post',
-    'url'               => '/admin/user/edit/{id}',
+    'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveEdit',
@@ -101,18 +101,26 @@ return [
 
   'admin_user_roles' => [
     'process'           => 'get',
-    'url'               => '/admin/user/roles/{id}',
+    'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showRoles',
   ],
 
   'admin_user_roles_save' => [
-    'process'           => 'get',
-    'url'               => '/admin/user/roles/{id}',
+    'process'           => 'post',
+    'url'               => '/admin/user/{id}/roles/edit',
     'is_auth'           => true,
     'acl'               => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRole',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRoles',
+  ],
+
+  'admin_user_role_delete' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/{id}/roles/{role_id}/delete',
+    'is_auth'           => true,
+    'acl'               => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@deleteRole',
   ],
 
   'admin_changepass' => [

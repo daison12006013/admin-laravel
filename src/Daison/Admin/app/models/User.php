@@ -34,7 +34,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
 
   public function roles()
   {
-    return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role');
+    return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role')->orderBy('name', 'ASC');
   }
 
   public function updateInformation($post)
