@@ -14,4 +14,9 @@ return [
     'has_special_char'            => true,
     'has_upper_and_lower'         => true,
   ],
+
+  /**
+   * Advanced Configuration, You must read the documentation @ github
+   */
+  'top_nav_template'              => 'admin::admin.layouts.top_nav_template',
 ];
