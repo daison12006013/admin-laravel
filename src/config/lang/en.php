@@ -18,4 +18,7 @@ return [
   'user_add_info_msg'         => 'You have successfully added a new account',
 
   'no_group_found'            => 'No group found.',
+
+  'role_saved'                => 'You have successfully added a new role',
+  'role_deleted'              => 'You have successfully deleted a role',
 ];

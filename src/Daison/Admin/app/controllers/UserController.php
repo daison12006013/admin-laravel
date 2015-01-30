@@ -52,13 +52,9 @@ class UserController extends BaseController
     return \View::make('admin::admin.users.list')->withUsers($users);
   }
 
-  public function showEdit($x)
+  public function showEdit($id)
   {
-    $user = \User::find($x);
-
-    if (! $user) {
-      throw new \Exception('User not found');
-    }
+    $user = $this->_findUser($id);
 
     return \View::make('admin::admin.users.edit')->withUser($user);
   }
@@ -67,11 +63,7 @@ class UserController extends BaseController
   {
     $post = \Input::all();
 
-    $user = User::find($id);
-
-    if (! $user) {
-      throw new \Exception('User not found');
-    }
+    $user = $this->_findUser($id);
 
     $user->updateInformation($post);
     $user->save();
@@ -145,13 +137,9 @@ class UserController extends BaseController
   }
 
 
-  public function showRoles($user_id)
+  public function showRoles($id)
   {
-    $user = User::find($user_id);
-
-    if (! $user) {
-      throw new Exception('User not found');
-    }
+    $user = $this->_findUser($id);
 
     $user_roles = $user->roles;
     $available_roles = Role::orderBy('name', 'ASC')->get();
@@ -159,9 +147,16 @@ class UserController extends BaseController
     return \View::make('admin::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
   }
 
-  public function saveRoles()
+  public function saveRoles($id)
   {
-    
+    $user = $this->_findUser($id);
+
+    $role = new UserHasRole;
+    $role->user_id = $id;
+    $role->role_id = \Input::get('role_id');
+    $role->save();
+
+    return \Redirect::to(\URL::previous())->withSuccess(\Config::get('admin::lang/lang.role_saved'));
   }
 
   public function deleteRole($user_id, $role_id)
@@ -170,7 +165,17 @@ class UserController extends BaseController
 
     $user_has_role->delete();
 
-    return \Redirect::to(\URL::previous());
+    return \Redirect::to(\URL::previous())->withSuccess(\Config::get('admin::lang/lang.role_deleted'));
+  }
+
+  private function _findUser($id)
+  {
+    $user = User::find($id);
+    if (! $user) {
+      throw new \Exception('User not found');
+    }
+
+    return $user;
   }
   
 }

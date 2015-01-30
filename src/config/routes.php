@@ -109,7 +109,7 @@ return [
 
   'admin_user_roles_save' => [
     'process'           => 'post',
-    'url'               => '/admin/user/{id}/roles/edit',
+    'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
     'acl'               => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRoles',
