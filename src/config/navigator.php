@@ -73,4 +73,17 @@ return [
         ],
     ],
 
+    'roles_nav' => [
+        'name' => 'Roles',
+        'icon' => 'fa fa-list fa-fw',
+        'url' => '#',
+        'roles' => ['superuser'],
+        'items' => [
+            'lists' => [
+                'name' => 'Lists',
+                'url' => '/admin/roles/lists',
+            ],
+        ],
+    ],
+
 ];
