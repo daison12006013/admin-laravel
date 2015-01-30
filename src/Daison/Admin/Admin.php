@@ -4,21 +4,52 @@ use Daison\Admin\App\Models\User;
 
 class Admin
 {
-  public static function start()
+  public static function start($routes)
   {
     $_self = new static;
-    $_self->_start();
+    $_self->_start($routes);
 
     return $_self;
   }
 
 
-  private function _start()
+  private function _start($routes)
   {
     // create the routes
-    foreach (\Config::get('admin::routes') as $route_name => $val) {
+    foreach ($routes as $route_name => $val) {
       $this->_createRoute($route_name, $val);
     }
+  }
+
+  public function restRoute($val, $controller, $action, 
+      $p1 = null, 
+      $p2 = null, 
+      $p3 = null, 
+      $p4 = null, 
+      $p5 = null, 
+      $p6 = null, 
+      $p7 = null, 
+      $p8 = null) {
+
+    \Route::any($val['url'], 
+      function($p1=null,$p2=null,$p3=null,$p4=null,$p5=null,$p6=null,$p7=null,$p8=null) 
+        use ($controller, $action, $val) {
+      
+          // always check the auth for each route
+          if (! $this->_authCheck($val)) {
+            return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
+          }
+
+          // check the access
+          if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
+            $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
+            \Log::error($msg);
+            return \Response::view('admin::admin.errors.acl', [], 404);
+          }
+
+          return \App::make($controller)->{$action}($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8);
+      }
+    );
   }
 
 
@@ -28,45 +59,52 @@ class Admin
     $controller = $url[0];
     $action = $url[1];
 
-    switch (strtoupper($val['process'])) {
-      case 'GET':
-        \Route::get($val['url'], function() use ($controller, $action, $val) {
+    call_user_func_array(array($this, "restRoute"), [$val, $controller, $action]);
 
-          // always check the auth for each route
-          if (! $this->_authCheck($val)) {
-            return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
-          }
+    // switch (strtoupper($val['process'])) {
+    //   case 'REST':
+    //     call_user_func_array(array($this, "restRoute"), [$val, $controller, $action]);
+    //   break;
 
-          // check the access
-          if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
-            $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
-            \Log::error($msg);
-            return \Response::view('admin::admin.errors.acl', [], 404);
-          }
+    //   case 'GET':
+    //     \Route::get($val['url'], function() use ($controller, $action, $val) {
 
-          return \App::make($controller)->{$action}();
-        });
-      break;
+    //       // always check the auth for each route
+    //       if (! $this->_authCheck($val)) {
+    //         return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
+    //       }
 
-      case 'POST':
-        \Route::post($val['url'], function() use ($controller, $action, $val) {
+    //       // check the access
+    //       if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
+    //         $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
+    //         \Log::error($msg);
+    //         return \Response::view('admin::admin.errors.acl', [], 404);
+    //       }
 
-          // always check the auth for each route
-          if (! $this->_authCheck($val)) {
-            return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
-          }
+    //       return \App::make($controller)->{$action}();
+    //     });
+    //   break;
 
-          // check the access
-          if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
-            $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
-            \Log::error($msg);
-            return \Response::view('admin::admin.errors.acl', [], 404);
-          }
+    //   case 'POST':
+    //     \Route::post($val['url'], function() use ($controller, $action, $val) {
 
-          return \App::make($controller)->{$action}();
-        });
-      break;
-    }
+    //       // always check the auth for each route
+    //       if (! $this->_authCheck($val)) {
+    //         return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
+    //       }
+
+    //       // check the access
+    //       if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
+    //         $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
+    //         \Log::error($msg);
+    //         return \Response::view('admin::admin.errors.acl', [], 404);
+    //       }
+
+    //       return \App::make($controller)->{$action}();
+    //     });
+    //   break;
+    // }
+
   }
 
 

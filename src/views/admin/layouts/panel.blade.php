@@ -26,9 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style type="text/css">
-      @yield('css_internal')
-    </style>
+    @yield('css_internal')
   </head>
 
   <body>

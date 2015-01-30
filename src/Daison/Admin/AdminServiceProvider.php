@@ -24,7 +24,7 @@ class AdminServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('daison/admin');
-		Admin::start();
+		Admin::start(\Config::get('admin::routes'));
 	}
 
 	/**

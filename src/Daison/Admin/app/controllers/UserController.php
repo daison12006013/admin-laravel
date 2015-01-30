@@ -57,10 +57,21 @@ class UserController extends BaseController
     return;
   }
 
-  public function lists()
+  public function showLists()
   {
     $users = \User::orderBy('last_name','ASC')->paginate(15);
 
     return \View::make('admin::admin.users.list')->withUsers($users);
+  }
+
+  public function showEdit($x)
+  {
+    $user = \User::find($x);
+
+    if (! $user) {
+      throw new \Exception('User not found');
+    }
+
+    return \View::make('admin::admin.users.edit')->withUser($user);
   }
 }

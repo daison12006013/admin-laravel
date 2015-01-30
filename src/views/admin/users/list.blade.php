@@ -43,7 +43,9 @@
       var userBoxCount = $(".userCheckbox:checked").length;
       if (userBoxCount == 1) {
         $("#pencilBtn").removeClass("disabled");
-        $("#pencilBtn").attr("href", "{{Config::get('admin::routes.admin_user_add.url')}}");
+
+        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/edit/1";
+        $("#pencilBtn").attr("href", url);
       } else {
         $("#pencilBtn").addClass("disabled");
       }
