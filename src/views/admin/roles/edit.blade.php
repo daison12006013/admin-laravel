@@ -11,7 +11,7 @@
 
 @section('content')
 <a href="{{Config::get('admin::routes.admin_role_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
-{{Form::open(['autocomplete' => 'off'])}}
+{{Form::open([])}}
   @if (Session::has('success'))
   <div class="alert alert-success">
     {{Session::get('success')}}
@@ -24,12 +24,11 @@
   </div>
   @endif
 
-
   <div class="form-group">
-    <label>Role Name</label>
-    {{Form::text('name', '', ['class' => 'form-control'])}}
+    <label>Name</label>
+    <input type="text" name="name" value="{{{$role['name']}}}" class="form-control">
   </div>
-  <button class="btn btn-success pull-right" type="submit">Save</button>
+  <button class="btn btn-success pull-right" type="submit">Update</button>
 {{Form::close()}}
 @stop
 
