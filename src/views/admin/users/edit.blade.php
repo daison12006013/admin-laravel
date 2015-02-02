@@ -38,7 +38,7 @@
     <label>Employee Code</label>
     <input type="text" name="employee_code" value="{{{$user['employee_code']}}}" class="form-control">
   </div>
-  <button class="btn btn-success pull-right" type="submit">Save</button>
+  <button class="btn btn-success pull-right" type="submit">Update</button>
 {{Form::close()}}
 @stop
 

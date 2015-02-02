@@ -69,7 +69,7 @@
         </select>
       </div>
 
-      <button class="btn btn-success pull-right" type="submit">Save</button>
+      <button class="btn btn-success pull-right" type="submit">Add</button>
     {{Form::close()}}
   </div>
 

@@ -123,6 +123,30 @@ return [
     'uses'              => 'Daison\Admin\App\Controllers\UserController@deleteRole',
   ],
 
+  'admin_user_roles' => [
+    'process'           => 'get',
+    'url'               => '/admin/role/lists',
+    'is_auth'           => true,
+    'roles'             => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showRoles',
+  ],
+
+  'admin_user_roles_add' => [
+    'process'           => 'get',
+    'url'               => '/admin/role/add',
+    'is_auth'           => true,
+    'roles'             => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showAdd',
+  ],
+
+  'admin_user_roles_add_save' => [
+    'process'           => 'post',
+    'url'               => '/admin/role/add',
+    'is_auth'           => true,
+    'roles'             => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\RoleController@saveAdd',
+  ],
+
   'admin_changepass' => [
     'process'           => 'get',
     'url'               => '/admin/settings/change-password',
@@ -135,13 +159,6 @@ return [
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
     'uses'              => 'Daison\Admin\App\Controllers\UserController@updatePassword',
-  ],
-
-  'admin_user_roles' => [
-    'process'           => 'get',
-    'url'               => '/admin/roles/lists',
-    'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showRoles',
   ],
 
 ];

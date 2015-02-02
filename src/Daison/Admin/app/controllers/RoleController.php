@@ -7,6 +7,15 @@ class RoleController extends BaseController
     return \View::make('admin::admin.roles.list');
   }
 
+  public function showAdd()
+  {
+    return \View::make('admin::admin.roles.add');
+  }
+
+  public function saveAdd()
+  {
+    
+  }
 
 
 }

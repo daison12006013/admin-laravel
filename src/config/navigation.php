@@ -81,7 +81,7 @@ return [
         'items' => [
             'lists' => [
                 'name' => 'Lists',
-                'url' => '/admin/roles/lists',
+                'url' => '/admin/role/lists',
             ],
         ],
     ],
