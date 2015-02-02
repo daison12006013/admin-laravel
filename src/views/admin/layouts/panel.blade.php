@@ -108,9 +108,10 @@
                           </a>
                           @if ($has_first_level)
                               <ul class="sub">
-                                  @foreach ($val['items'] as $second_val)
+                                  @foreach ($val['items'] as $key => $second_val)
 
-                                    <?php 
+                                    <?php
+
                                       if (isset($second_val['roles']) && count($second_val['roles']) > 0) {
                                         $has_access = false;
                                         foreach (Session::get('roles') as $role) {

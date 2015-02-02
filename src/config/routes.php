@@ -64,9 +64,9 @@ return [
     'url'               => '/admin/user/add',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showNew',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@showAdd',
   ],
-  
+
   'admin_user_edit' => [
     'process'           => 'get',
     'url'               => '/admin/user/{id}/edit',
@@ -81,14 +81,6 @@ return [
     'is_auth'           => true,
     'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveEdit',
-  ],
-
-  'admin_user_add' => [
-    'process'           => 'get',
-    'url'               => '/admin/user/add',
-    'is_auth'           => true,
-    'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showAdd',
   ],
 
   'admin_user_add_save' => [

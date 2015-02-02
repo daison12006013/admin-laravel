@@ -30,7 +30,8 @@ class AddForeignKeysToUserHasRoleTable extends Migration {
 	{
 		Schema::table('user_has_role', function(Blueprint $table)
 		{
-			//
+			$table->dropForeign('user_has_role_user_id_foreign');
+			$table->dropForeign('user_has_role_role_id_foreign');
 		});
 	}
 

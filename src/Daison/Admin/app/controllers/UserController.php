@@ -35,14 +35,14 @@ class UserController extends BaseController
         throw new \Exception(\Config::get('admin::lang/lang.password_old_pass_and_re'));
       }
 
-      if (! \Hash::check($old_password, \Auth::user()->password)) {
+      if (! Hash::check($old_password, \Auth::user()->password)) {
         throw new \Exception(\Config::get('admin::lang/lang.password_db_not_match'));
       }
 
       $this->_checkPasswordRules($new_password);
 
       $user = User::find(\Auth::user()->id);
-      $user->password = \Hash::make($new_password);
+      $user->password = Hash::make($new_password);
       $user->save();
 
       return \Redirect

@@ -12,13 +12,37 @@ return [
         'icon' => 'fa fa-edit fa-fw',
         'url' => '#',
         'items' => [
+
+
             'receiving' => [
-                'name'      => 'Receiving Tagging',
+                'name'      => 'Receiving',
                 'url'       => '/admin/tagging/receiving',
             ],
-            'releasing' => [
-                'name'      => 'Releasing Tagging',
-                'url'       => '/admin/tagging/releasing',
+            'submitted' => [
+                'name'      => 'Submitting',
+                'url'       => '/admin/tagging/submitting',
+            ],
+            'processing' => [
+                'name'      => 'Processing',
+                'url'       => '/admin/tagging/processing',
+            ],
+
+            'dispatching' => [
+                'name'      => 'Dispatching',
+                'url'       => '/admin/tagging/dispatching',
+            ],
+            'delivered' => [
+                'name'      => 'Delivered',
+                'url'       => '/admin/tagging/delivered',
+            ],
+
+            'incomplete' => [
+                'name'      => 'Incomplete',
+                'url'       => '/admin/tagging/incomplete',
+            ],
+            'damaged' => [
+                'name'      => 'Damaged',
+                'url'       => '/admin/tagging/damaged',
             ],
         ],
     ],
