@@ -3,7 +3,7 @@
 Include this to your composer
 ```
   	"require": {
-  		"daison/admin": "dev-master"
+  		"daison/admin-laravel": "dev-master"
   	}
 ```
 <br>
