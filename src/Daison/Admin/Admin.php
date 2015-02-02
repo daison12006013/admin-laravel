@@ -5,38 +5,20 @@ use Daison\Admin\App\Models\User;
 class Admin
 {
 
-  /**
-   *
-   *
-   * @param unknown $routes
-   * @return unknown
-   */
-  public static function start($routes)
-  {
-    $_self = new static;
-    $_self->_start($routes);
-
-    return $_self;
-  }
-
 
   /**
    *
    *
    * @param unknown $routes
    */
-  private function _start($routes)
+  public function start($routes)
   {
     // Create the routes and filters
     foreach ($routes as $route_name => $val) {
-      $url = explode('@', $val['uses']);
-      $controller = $url[0];
-      $action = $url[1];
-
-      call_user_func_array(array($this, "pushRoute"), [$val, $controller, $action]);
+      call_user_func_array(array($this, "setRoute"), [$val]);
     }
 
-    return;
+    return $this;
   }
 
   /**
@@ -55,20 +37,15 @@ class Admin
    * @param unknown $p8         (optional)
    * @return unknown
    */
-  public function pushRoute($val, $controller, $action,
-    $p1 = null,
-    $p2 = null,
-    $p3 = null,
-    $p4 = null,
-    $p5 = null,
-    $p6 = null,
-    $p7 = null,
-    $p8 = null)
+  private function setRoute($val, $p1 = null, $p2 = null, $p3 = null, $p4 = null, $p5 = null, $p6 = null, $p7 = null, $p8 = null)
   {
+    $url = explode('@', $val['uses']);
+    $controller = $url[0];
+    $action = $url[1];
 
     \Route::{$val['process']}($val['url'],
       function($p1=null, $p2=null, $p3=null, $p4=null, $p5=null, $p6=null, $p7=null, $p8=null)
-      use ($controller, $action, $val)
+      use ($val, $controller, $action)
       {
 
         // always check the auth for each route
@@ -76,12 +53,14 @@ class Admin
           return \Redirect::to(\Config::get('admin::routes.admin.url'))->withError(\Config::get('admin::lang/lang.login_notifier'));
         }
 
+
         // check the access
         if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
           $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
           \Log::error($msg);
           return \Response::view('admin::admin.errors.roles', [], 404);
         }
+
 
         return \App::make($controller)->{$action}($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8);
       }
