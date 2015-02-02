@@ -1,7 +1,9 @@
 {
-    "name": "daison/admin",
-    "description": "Your Admin CMS for your web apps",
-    "keywords": ["laravel", "admin", "bootstrap", "cms"],
+    "name": "daison/admin-laravel",
+    "description": "Ready made admin for your laravel website.",
+    "keywords": ["laravel", "php", "admin", "administrator", "twitter bootstrap"],
+    "homepage": "https://github.com/artdarek/oauth-4-laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Daison Carino",
@@ -20,5 +22,5 @@
             "Daison\\Admin": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
