@@ -14,16 +14,16 @@ Update your composer
 <br>
 Go to <b>/app/config/app.php</b> and add this line
 ```
-    'Illuminate\Workbench\WorkbenchServiceProvider',
-    <b>'Daison\Admin\AdminServiceProvider',</b>
+    'Daison\Admin\AdminServiceProvider',
 ```
 <br>
-Go to your command line
+Go to your command line and publish the config and assets
 ```
     php artisan config:publish daison/admin
+    php artisan asset:publish daison/admin --path="vendor/daison/admin/src/assets"
 ```
 <br>
-Check your database configuration, you should have already setup your database and run this migration
+Setup your database and laravel config for it, and run the package migrations
 ```
     php artisan migrate --package="daison/admin"
 ```
@@ -32,35 +32,41 @@ Check your database configuration, you should have already setup your database a
 Go to your browser <b>localhost:8080/admin</b>
   You can now access the admin login page
   
-  Go to your command line, and let us test this admin panel
+  Go to your command line, and lets create an account to test this admin panel
   ```
     php artisan tinker
     > $user = new User;
     > $user->email = "email@gmail.com";
     > $user->password = Hash::make('abcd');
     > $user->save();
+    > $role = new Role;
+    > $role->name = 'superuser';
+    > $role->save();
+    > $user_role = new UserHasRole;
+    > $user_role->user_id = 1;
+    > $user_role->role_id = 1;
+    > $user_role->save();
   ```
 
-  Go back to the page, and login using your recently created account.
+  Go back to the page, and log your recently created account.
   
   Tadda! Now you can see the navigation bar, the site name, and even the logout button, let's move to configuration.
 
-# Configuring
+# Configuration
 Remember whe used this command <b>php artisan config:publish daison/admin</b>
 Go to /app/config/packages/daison/admin/ folder
 you can see this files
   <ul>
+    <li>Lang
+      <ul>
+        <li>en.php</li>
+      </ul>
+    </li>
     <li>general.php</li>
-    <li>navs.php</li>
+    <li>navigations.php</li>
     <li>routes.php</li>
   </ul>
-####General
-    site_name - Your Application Name
-    homepage_url - The url of your homepage, by default /admin/dashboard
-    homepage_controller - The controller with function to be used
-    user_not_found_message - If users fail to login, then show this message.
-    
-    
+
 ####Navigation
 Lets create our sample navigation,
 ```
@@ -82,24 +88,34 @@ Lets create our sample navigation,
       ],
     ],
 ```
-After creating this router with [items], refresh your page, and you can see the sample links from the nav bar.
-  
+After creating this links with [items], refresh your page, and you can see the sample links from the nav bar. You can even use ``'roles' => ['superuser']`` to limit the view access.
 
 ####Routes
 Based from our navigation links, we need to create a route to assign the controller to work with. You can also use the original routes file from /app/config/routes.php, but I suggest to use this approach to separate your original routes from admin routes.
   ```
-  'admin_sample_1' => [
+  'admin_sample_get' => [
     'process' => 'get',
-    'url'     => '/admin/sample/1',
-    'uses'    => 'AdminController@sampleOne',
+    'url'     => '/admin/sample/',
+    'uses'    => 'SampleController@showSample',
   ],
-  'admin_sample_2' => [
+  'admin_sample_post' => [
+    'process' => 'post',
+    'url'     => '/admin/sample/',
+    'uses'    => 'SampleController@saveSample',
+  ],
+  'admin_sample_rest_get' => [
     'process' => 'get',
-    'url'     => '/admin/sample/2',
-    'uses'    => 'AdminController@sampleTwp',
+    'url'     => '/admin/inventory/{id}/edit',
+    'uses'    => 'InventoryController@showEditItem',
+  ],
+  'admin_sample_rest_post' => [
+    'process' => 'post',
+    'url'     => '/admin/inventory/{id}/edit',
+    'uses'    => 'InventoryController@updateItem',
   ],
   ```
-  Now create your AdminController and it's up to you to handle the responses.
+  Now create your SampleController / InventoryController and it's up to you to handle the responses. You can even assign ``'roles' => ['superuser']`` to restrict each request, you can also provide ``'is_auth' => true`` to redirect guest to the login page.
+
 
 
 
