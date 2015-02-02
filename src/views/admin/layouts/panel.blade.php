@@ -69,7 +69,7 @@
 
                   <h5 class="centered">{{$user['first_name']}} {{$user['last_name']}}</h5>
 
-                  @foreach (Config::get('admin::navigator') as $first_level => $val)
+                  @foreach (Config::get('admin::navigation') as $first_level => $val)
 
                       <?php 
                         if (isset($val['roles']) && count($val['roles']) > 0) {

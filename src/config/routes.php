@@ -6,10 +6,10 @@ return [
   // YOUR ROUTES HERE
   // ----------------
   'admin_home' => [
-    'process' => 'get',
-    'url'     => '/admin/dashboard',
-    'is_auth' => true,
-    'uses'    => 'Daison\Admin\App\Controllers\DashboardController@index',
+    'process'           => 'get',
+    'url'               => '/admin/dashboard',
+    'is_auth'           => true,
+    'uses'              => 'Daison\Admin\App\Controllers\DashboardController@index',
   ],
 
 
@@ -55,7 +55,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/lists',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showLists',
   ],
   
@@ -63,7 +63,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/add',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showNew',
   ],
   
@@ -71,7 +71,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showEdit',
   ],
 
@@ -79,7 +79,7 @@ return [
     'process'           => 'post',
     'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveEdit',
   ],
 
@@ -87,7 +87,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/add',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showAdd',
   ],
 
@@ -95,7 +95,7 @@ return [
     'process'           => 'post',
     'url'               => '/admin/user/add',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveAdd',
   ],
 
@@ -103,7 +103,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showRoles',
   ],
 
@@ -111,7 +111,7 @@ return [
     'process'           => 'post',
     'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRoles',
   ],
 
@@ -119,7 +119,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/user/{id}/roles/{role_id}/delete',
     'is_auth'           => true,
-    'acl'               => ['superuser'],
+    'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@deleteRole',
   ],
 

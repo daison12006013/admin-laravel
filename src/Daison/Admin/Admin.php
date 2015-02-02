@@ -46,7 +46,7 @@ class Admin
           if (\Auth::check() == true && $this->_checkAccessList($val) == false ) {
             $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $val['url'];
             \Log::error($msg);
-            return \Response::view('admin::admin.errors.acl', [], 404);
+            return \Response::view('admin::admin.errors.roles', [], 404);
           }
 
           return \App::make($controller)->{$action}($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8);
@@ -67,11 +67,11 @@ class Admin
 
   private function _checkAccessList($val)
   {
-    if (! isset($val['acl'])) {
+    if (! isset($val['roles'])) {
       return true;
     }
 
-    if (count($val['acl']) <= 0) {
+    if (count($val['roles']) <= 0) {
       return true;
     }
 
@@ -79,7 +79,7 @@ class Admin
     $user->roles;
 
     foreach ($user['roles'] as $role) {
-      if (in_array($role['name'], $val['acl'])) {
+      if (in_array($role['name'], $val['roles'])) {
         return true;
       }
     }
