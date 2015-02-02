@@ -53,11 +53,11 @@ Go to your browser <b>localhost:8080/admin</b>
   Tadda! Now you can see the navigation bar, the site name, and even the logout button, let's move to configuration.
 
 # Configuration
-Remember whe used this command <b>php artisan config:publish daison/admin</b>
+Remember we used this command <b>php artisan config:publish daison/admin</b>
 Go to /app/config/packages/daison/admin/ folder
-you can see this files
+you can see these files
   <ul>
-    <li>Lang
+    <li>lang
       <ul>
         <li>en.php</li>
       </ul>
@@ -88,7 +88,7 @@ Lets create our sample navigation,
       ],
     ],
 ```
-After creating this links with [items], refresh your page, and you can see the sample links from the nav bar. You can even use ``'roles' => ['superuser']`` to limit the view access.
+After creating these links with [items], refresh your page and see changes. You can even use ``'roles' => ['superuser']`` to limit the view access.
 
 ####Routes
 Based from our navigation links, we need to create a route to assign the controller to work with. You can also use the original routes file from /app/config/routes.php, but I suggest to use this approach to separate your original routes from admin routes.
