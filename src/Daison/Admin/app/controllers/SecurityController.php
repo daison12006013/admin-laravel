@@ -4,11 +4,22 @@ use Daison\Admin\App\Models\User;
 
 class SecurityController extends BaseController
 {
+
+  /**
+   *
+   *
+   * @return unknown
+   */
   public function index()
   {
     return \View::make('admin::admin.layouts.login');
   }
 
+  /**
+   *
+   *
+   * @return unknown
+   */
   public function login()
   {
     $email = \Input::get('email');
@@ -22,6 +33,11 @@ class SecurityController extends BaseController
     return \Redirect::to('/admin')->withError(\Config::get('admin::lang/lang.user_not_found_message'));
   }
 
+  /**
+   *
+   *
+   * @return unknown
+   */
   public function logout()
   {
     \Auth::logout();

@@ -7,36 +7,47 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends \Eloquent implements UserInterface, RemindableInterface {
 
-	use UserTrait, RemindableTrait;
+  use UserTrait, RemindableTrait;
 
   protected $fillable = [
-    'email',
-    'first_name',
-    'middle_name',
-    'last_name',
-    'employee_code',
+  'email',
+  'first_name',
+  'middle_name',
+  'last_name',
+  'employee_code',
   ];
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+  /**
+   * The database table used by the model.
+   *
+   * @var string
+   */
+  protected $table = 'users';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password', 'remember_token');
+  /**
+   * The attributes excluded from the model's JSON form.
+   *
+   * @var array
+   */
+  protected $hidden = array('password', 'remember_token');
 
 
+  /**
+   *
+   *
+   * @return unknown
+   */
   public function roles()
   {
     return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role')->orderBy('name', 'ASC');
   }
 
+  /**
+   *
+   *
+   * @param unknown $post
+   * @return unknown
+   */
   public function updateInformation($post)
   {
     $this->first_name = $post['first_name'];

@@ -17,11 +17,23 @@ class PasswordRules
   private $req_upper_n_lower_err_message = false;
 
 
+  /**
+   *
+   *
+   * @param unknown $password (optional)
+   */
   public function __construct($password = NULL)
   {
     $this->password = $password;
   }
 
+  /**
+   *
+   *
+   * @param unknown $length
+   * @param unknown $err_message (optional)
+   * @return unknown
+   */
   public function setMinimumLength($length, $err_message = NULL)
   {
     $this->min_length = $length;
@@ -30,6 +42,13 @@ class PasswordRules
     return $this;
   }
 
+  /**
+   *
+   *
+   * @param unknown $bool
+   * @param unknown $err_message (optional)
+   * @return unknown
+   */
   public function setRequireAtleastOneNumber($bool, $err_message = NULL)
   {
     $this->req_one_num = $bool;
@@ -38,6 +57,13 @@ class PasswordRules
     return $this;
   }
 
+  /**
+   *
+   *
+   * @param unknown $bool
+   * @param unknown $err_message (optional)
+   * @return unknown
+   */
   public function setRequireAtleastOneSpecialCharacter($bool, $err_message = NULL)
   {
     $this->req_special_char = $bool;
@@ -46,6 +72,13 @@ class PasswordRules
     return $this;
   }
 
+  /**
+   *
+   *
+   * @param unknown $bool
+   * @param unknown $err_message (optional)
+   * @return unknown
+   */
   public function setRequireUpperAndLower($bool, $err_message = NULL)
   {
     $this->req_upper_n_lower = $bool;
@@ -54,6 +87,12 @@ class PasswordRules
     return $this;
   }
 
+  /**
+   *
+   *
+   * @param unknown $password
+   * @return unknown
+   */
   public function setInputtedPassword($password)
   {
     $this->password = $password;
@@ -61,8 +100,14 @@ class PasswordRules
     return $this;
   }
 
+  /**
+   *
+   *
+   * @return unknown
+   */
   public function check()
   {
+
     /**
      * Check if password is set.
      */
@@ -86,7 +131,7 @@ class PasswordRules
       if (is_null($this->min_length_err_message) == false) {
         throw new \Exception($this->min_length_err_message);
       }
-      
+
       throw new \Exception('Password must contain at least ' . $this->min_length . ' alphanumeric characters.');
     }
 
