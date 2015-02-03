@@ -26,9 +26,14 @@ Go to your command line and publish the config, view and assets
     php artisan asset:publish daison/admin-laravel --path="vendor/daison/admin-laravel/src/assets"
 ```
 <br>
-Setup your database and laravel config for it, and run the package migrations
+Setup your database and laravel configuration, and run the package migrations
 ```
     php artisan migrate --package="daison/admin-laravel"
+```
+
+Or if you have an existing Users table then use publish
+```
+    php artisan migrate:publish daison/admin-laravel
 ```
 
 # Pre-Testing
