@@ -19,15 +19,16 @@ Go to <b>/app/config/app.php</b> and add this line
     'Daison\Admin\AdminServiceProvider',
 ```
 <br>
-Go to your command line and publish the config and assets
+Go to your command line and publish the config, view and assets
 ```
-    php artisan config:publish daison/admin
-    php artisan asset:publish daison/admin --path="vendor/daison/admin/src/assets"
+    php artisan config:publish daison/admin-laravel
+    php artisan view:publish daison/admin-laravel
+    php artisan asset:publish daison/admin-laravel --path="vendor/daison/admin-laravel/src/assets"
 ```
 <br>
 Setup your database and laravel config for it, and run the package migrations
 ```
-    php artisan migrate --package="daison/admin"
+    php artisan migrate --package="daison/admin-laravel"
 ```
 
 # Pre-Testing
@@ -55,8 +56,8 @@ Go to your browser <b>localhost:8080/admin</b>
   Tadda! Now you can see the navigation bar, the site name, and even the logout button, let's move to configuration.
 
 # Configuration
-Remember we used this command <b>php artisan config:publish daison/admin</b>
-Go to /app/config/packages/daison/admin/ folder
+Remember we used this command <b>php artisan config:publish daison/admin-laravel</b>
+Go to /app/config/packages/daison/admin-laravel/ folder
 you can see these files
   <ul>
     <li>lang
