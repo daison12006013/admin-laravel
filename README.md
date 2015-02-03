@@ -1,11 +1,13 @@
 # Start Up
 
-Include this to your composer
+Include this to your composer, if you want the most updated branch, use ``dev-master``
 ```
   	"require": {
-  		"daison/admin-laravel": "dev-master"
+  		"daison/admin-laravel": "1.0.0"
   	}
 ```
+
+
 <br>
 Update your composer
 ```
