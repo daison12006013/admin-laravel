@@ -63,9 +63,11 @@ class UserController extends BaseController
    */
   public function showLists()
   {
-    $users = \User::orderBy('last_name', 'ASC')->paginate(15);
+    $sort = \Input::get('sort', 'id');
+    $order_by = \Input::get('order', 'asc');
+    $users = \User::orderBy($sort, $order_by)->paginate(\Config::get('admin::general.user_lists_count'));
 
-    return \View::make('admin::admin.users.list')->withUsers($users);
+    return \View::make('admin::admin.users.list')->withUsers($users)->withOrderBy($order_by)->withSort($sort);
   }
 
   /**
