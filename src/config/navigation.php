@@ -26,7 +26,10 @@ return [
                 'name'      => 'Processing',
                 'url'       => '/admin/tagging/processing',
             ],
-
+            'releasing' => [
+                'name'      => 'Releasing',
+                'url'       => '/admin/tagging/releasing',
+            ],
             'dispatching' => [
                 'name'      => 'Dispatching',
                 'url'       => '/admin/tagging/dispatching',
