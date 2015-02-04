@@ -4,7 +4,7 @@ return [
 
   'language'                      => 'en',
 
-  'site_name'                     => 'Acme',
+  'site_name'                     => 'SENS',
   'version'                       => '1.0.0',
 
   'password_settings' => [
