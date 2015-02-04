@@ -29,39 +29,48 @@
         [
           [
             'label' => 'User ID',
-            'name'  => 'id',
+            'name'  => 'search[id]',
             'type'  => 'text',
-            'class' => 'form-control input-sm',
+            'html'  => [
+              'class' => 'form-control input-sm',
+            ],
           ],
           [
             'label' => 'Email',
-            'name'  => 'email',
-            'type'  => 'email',
-            'class' => 'form-control input-sm',
+            'name'  => 'search[email]',
+            'type'  => 'text',
+            'html'  => [
+              'class' => 'form-control input-sm',
+            ],
           ],
           [
             'label' => 'First Name',
-            'name'  => 'first_name',
+            'name'  => 'search[first_name]',
             'type'  => 'text',
-            'class' => 'form-control input-sm',
+            'html'  => [
+              'class' => 'form-control input-sm',
+            ],
           ],
           [
             'label' => 'Last Name',
-            'name'  => 'last_name',
+            'name'  => 'search[last_name]',
             'type'  => 'text',
-            'class' => 'form-control input-sm',
-          ],
-          [
-            'label' => 'Sample',
-            'name'  => 'sample',
-            'type'  => 'select',
-            'options' => [
-              'test' => 'Test',
+            'html'  => [
+              'class' => 'form-control input-sm',
             ],
-            'class' => 'form-control input-sm',
           ],
+          // [
+          //   'label' => 'Sample',
+          //   'name'  => 'search[sample]',
+          //   'type'  => 'select',
+          //   'options' => [
+          //     'test' => 'Test',
+          //   ],
+          //   'html'  => [
+          //     'class' => 'form-control input-sm',
+          //   ],
+          // ],
         ],
-        'url' => '',
       ])
     </div>
   </div>
@@ -75,6 +84,7 @@
         $order_by_reverse = ($order_by === 'asc') ? 'desc' : 'asc';
 
         $current_url = URL::current();
+        echo $current_url;
         $current_page = '&page=' . $users->getCurrentPage();
       ?>
       <tr>

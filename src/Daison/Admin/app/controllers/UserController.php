@@ -4,6 +4,7 @@ use Daison\Admin\App\Models\PasswordRules as Rules;
 use Daison\Admin\App\Models\User;
 use Daison\Admin\App\Models\Role;
 use Daison\Admin\App\Models\UserHasRole;
+use Daison\Admin\App\Models\Searcher;
 
 class UserController extends BaseController
 {
@@ -65,9 +66,29 @@ class UserController extends BaseController
   {
     $sort = \Input::get('sort', 'id');
     $order_by = \Input::get('order', 'asc');
+
     $users = \User::orderBy($sort, $order_by)->paginate(\Config::get('admin::general.user_lists_count'));
 
-    return \View::make('admin::admin.users.list')->withUsers($users)->withOrderBy($order_by)->withSort($sort);
+    if (\Input::get('search')) {
+      $searcher = new Searcher(\User::orderBy($sort, $order_by));
+      $searcher->rules([
+        'id' => '=',
+        'email' => 'like',
+        'first_name' => 'like',
+        'last_name' => 'like',
+        'sample' => false,
+      ]);
+
+      $searcher->filter(\Input::get('search'));
+      $users = $searcher->getFilteredTable()->paginate(\Config::get('admin::general.user_lists_count'));
+    }
+
+
+    return \View::make('admin::admin.users.list')
+      ->withUsers($users)
+      ->withOrderBy($order_by)
+      ->withSort($sort)
+      ->withInput(\Input::all());
   }
 
   /**
