@@ -59,40 +59,24 @@
               'class' => 'form-control input-sm',
             ],
           ],
-          // [
-          //   'label' => 'Sample',
-          //   'name'  => 'search[sample]',
-          //   'type'  => 'select',
-          //   'options' => [
-          //     'test' => 'Test',
-          //   ],
-          //   'html'  => [
-          //     'class' => 'form-control input-sm',
-          //   ],
-          // ],
         ],
       ])
     </div>
   </div>
 
+  <?php
+    $order_reverse = ($order == 'asc') ? 'desc': 'asc';
+    $current_url = URL::current();
+    $users->setBaseUrl($current_url . '?' . $searcher->parseUrl());
+  ?>
   <div class="col-sm-9">
-    <div class="links">
-      {{$users->addQuery('sort', $sort)->addQuery('order', $order_by)->links()}}
-    </div>
     <table class="table table-bordered table-condensed">
-      <?php
-        $order_by_reverse = ($order_by === 'asc') ? 'desc' : 'asc';
-
-        $current_url = URL::current();
-        echo $current_url;
-        $current_page = '&page=' . $users->getCurrentPage();
-      ?>
       <tr>
         <th></th>
-        <th><a href="{{$current_url . '?sort=id&order='          . $order_by_reverse  . $current_page}}">User ID</a></th>
-        <th><a href="{{$current_url . '?sort=email&order='       . $order_by_reverse  . $current_page}}">Email</th>
-        <th><a href="{{$current_url . '?sort=last_name&order='   . $order_by_reverse  . $current_page}}">Last Name</th>
-        <th><a href="{{$current_url . '?sort=first_name&order='  . $order_by_reverse  . $current_page}}">First Name</th>
+        <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'id', 'order' => $order_reverse])}}">User ID</a></th>
+        <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'email', 'order' => $order_reverse])}}">Email</th>
+        <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'last_name', 'order' => $order_reverse])}}">Last Name</th>
+        <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'first_name', 'order' => $order_reverse])}}">First Name</th>
       </tr>
       @foreach ($users as $user)
         <tr>
@@ -107,7 +91,10 @@
       @endforeach
     </table>
     <div class="links">
-      {{$users->addQuery('sort', $sort)->addQuery('order', $order_by)->links()}}
+      {{$users
+          ->addQuery('sort', $sort)
+          ->addQuery('order', $order)
+          ->links()}}
     </div>
   </div>
 @stop

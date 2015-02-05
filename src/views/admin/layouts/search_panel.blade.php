@@ -2,6 +2,12 @@
   <legend>Search Panel</legend>
   <?php
   foreach ($forms as $form) {
+    $pre_defined = ['sort', 'order'];
+    if (in_array($form['name'], $pre_defined)) {
+      continue;
+    }
+
+
     $pre_text = '';
 
     $name = str_replace('[', '.', $form['name']);
@@ -28,6 +34,8 @@
     <?php
   }
 ?>
+{{Form::hidden('sort', Input::get('sort'))}}
+{{Form::hidden('order', Input::get('order'))}}
 <div class="pull-right">
   <button type="submit" class="btn btn-primary">Search <span class="fa fa-search fa-fw"></span></button>
 </div>
