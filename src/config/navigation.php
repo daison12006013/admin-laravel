@@ -7,6 +7,18 @@ return [
         'url' => '/admin/dashboard',
     ],
 
+    'submissions' => [
+        'name' => 'Submissions',
+        'icon' => 'fa fa-paperclip fa-fw',
+        'url' => '#',
+        'items' => [
+            'lists' => [
+                'name' => 'Lists',
+                'url' => '/admin/submissions/lists',
+            ]
+        ],
+    ],
+
     'tagging' => [
         'name' => 'Tagging',
         'icon' => 'fa fa-edit fa-fw',
