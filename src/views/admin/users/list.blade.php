@@ -65,7 +65,7 @@
   </div>
 
   <?php
-    $order_reverse = ($order == 'asc') ? 'desc': 'asc';
+    $order_reverse = ($searcher->getOrderBy() == 'asc') ? 'desc': 'asc';
     $current_url = URL::current();
     $users->setBaseUrl($current_url . '?' . $searcher->parseUrl());
   ?>
@@ -94,8 +94,8 @@
     </div>
     <div class="links">
       {{$users
-          ->addQuery('sort', $sort)
-          ->addQuery('order', $order)
+          ->addQuery('sort', $searcher->getSortKey())
+          ->addQuery('order', $searcher->getOrderBy())
           ->links()}}
     </div>
   </div>

@@ -5,8 +5,9 @@ class Searcher
   private $table;
   private $rules;
 
-  private $sort;
-  private $order;
+  // By Default we use the 'id'
+  private $sort_key = 'id';
+  private $order_by = 'asc';
 
   public function __construct($table)
   {
@@ -20,14 +21,14 @@ class Searcher
     return $this;
   }
 
-  public function getOrder()
+  public function getSortKey()
   {
-    return $this->order;
+    return $this->sort_key;
   }
 
-  public function getSort()
+  public function getOrderBy()
   {
-    return $this->sort;
+    return $this->order_by;
   }
 
   public function filter()
@@ -78,18 +79,21 @@ class Searcher
     return $this;
   }
 
-  public function processSorting()
+  public function setDefaultSortKey($sort_key)
   {
-    $this->sort = \Input::get('sort', 'id');
-    $this->order = \Input::get('order', 'asc');
-    if ($this->sort == '') {
-      $this->sort = 'id';
-    }
-    if ($this->order == '') {
-      $this->order = 'asc';
+    $this->sort_key = $sort_key;
+
+    return $this;
+  }
+
+  public function sortAndOrder()
+  {
+    if (strlen(\Input::get('sort')) != 0) {
+      $this->sort_key = \Input::get('sort');
     }
 
-    $this->table = $this->table->orderBy($this->sort, $this->order);
+    $this->order_by = \Input::get('order', 'asc');
+    $this->table = $this->table->orderBy($this->sort_key, $this->order_by);
 
     return $this;
   }
@@ -139,8 +143,11 @@ class Searcher
 
   public function getTable()
   {
-    $this->processSorting();
-
     return $this->table;
+  }
+
+  public function setTable($table)
+  {
+    $this->table = $table;
   }
 }

@@ -1,12 +1,14 @@
 <form class="form-vertical" method="GET">
   <legend>Search Panel</legend>
+
   <?php
+  $input = array_dot(Input::all());
+
   foreach ($forms as $form) {
     $pre_defined = ['sort', 'order'];
     if (in_array($form['name'], $pre_defined)) {
       continue;
     }
-
 
     $pre_text = '';
 
@@ -15,15 +17,15 @@
 
     switch ($form['type']) {
       case 'email':
-        $pre_text = Form::email($form['name'], Input::get($name), $form['html']);
+        $pre_text = Form::email($form['name'], @$input[$name], $form['html']);
         break;
       
       case 'text':
-        $pre_text = Form::text($form['name'], Input::get($name), $form['html']);
+        $pre_text = Form::text($form['name'], @$input[$name], $form['html']);
         break;
       
       case 'select':
-        $pre_text = Form::select($form['name'], $form['options'], Input::get($name), $form['html']);
+        $pre_text = Form::select($form['name'], $form['options'], @$input[$name], $form['html']);
         break;
     }
     ?>
