@@ -32,7 +32,7 @@
 
   <body>
 
-  <section id="container" >
+  <section id="container" class="<?php echo (@$disable_sidebar) ? 'sidebar-closed' : '' ?>">
       <!-- **********************************************************************************************************************************************************
       TOP BAR CONTENT & NOTIFICATIONS
       *********************************************************************************************************************************************************** -->
@@ -63,9 +63,9 @@
       *********************************************************************************************************************************************************** -->
       <!--sidebar start-->
       <aside>
-          <div id="sidebar"  class="nav-collapse ">
+          <div id="sidebar"  class="nav-collapse" style="<?php echo (@$disable_sidebar) ? 'margin-left:-210px;' : '' ?>">
               <!-- sidebar menu start-->
-              <ul class="sidebar-menu" id="nav-accordion">
+              <ul class="sidebar-menu" id="nav-accordion" style="<?php echo (@$disable_sidebar) ? 'display:none;' : '' ?>">
 
                   <h5 class="centered">{{$user['first_name']}} {{$user['last_name']}}</h5>
 
@@ -192,6 +192,11 @@
           $("li [data-url=\""+currentUrl+"\"]").addClass('active').closest('.sub-menu').find('.parentLink').click();
       });
 
+      @if (isset($disable_sidebar) && $disable_sidebar)
+        $(window).load(function() {
+          $('#nav-accordion').close();
+        });
+      @endif
   </script>
 
   @yield('javascript')
