@@ -93,10 +93,7 @@
       </table>
     </div>
     <div class="links">
-      {{$users
-          ->addQuery('sort', $searcher->getSortKey())
-          ->addQuery('order', $searcher->getOrderBy())
-          ->links()}}
+      {{$users->links()}}
     </div>
   </div>
 
