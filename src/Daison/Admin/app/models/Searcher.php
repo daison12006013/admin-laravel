@@ -9,9 +9,11 @@ class Searcher
   private $sort_key = 'id';
   private $order_by = 'asc';
 
-  public function __construct($table)
+  public function __construct($table = null)
   {
-    $this->table = new $table();
+    if ($table != null) {
+      $this->table = new $table();
+    }
   }
 
   public function rules($rules)
@@ -86,13 +88,13 @@ class Searcher
     return $this;
   }
 
-  public function sortAndOrder()
+  public function sortAndOrder($request)
   {
-    if (strlen(\Input::get('sort')) != 0) {
+    if (strlen(@$request['sort']) != 0) {
       $this->sort_key = \Input::get('sort');
     }
 
-    $this->order_by = \Input::get('order', 'asc');
+    $this->order_by = (@$request['order'] == 'desc') ? 'desc' : 'asc';
     $this->table = $this->table->orderBy($this->sort_key, $this->order_by);
 
     return $this;

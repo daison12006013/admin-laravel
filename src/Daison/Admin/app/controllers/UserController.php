@@ -186,7 +186,7 @@ class UserController extends BaseController
       'first_name' => 'like',
       'last_name' => 'like',
     ])->filter();
-    $searcher->sortAndOrder();
+    $searcher->sortAndOrder(Input::all());
     $users = $searcher->getTable()->paginate(Config::get('admin::general.user_lists_count'));
 
     return View::make('admin::admin.users.list')
