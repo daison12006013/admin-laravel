@@ -38,6 +38,9 @@
           {{Form::open(['url' => URL::to('/admin/security/login'), 'method' => 'POST', 'class' => 'form-login'])}}
             <h2 class="form-login-heading">sign in now</h2>
             <div class="login-wrap">
+                @if (Session::has('success'))
+                  <div class="alert alert-success">{{Session::get('success')}}</div>
+                @endif
                 @if (Session::has('error'))
                   <div class="alert alert-danger">{{Session::get('error')}}</div>
                 @endif

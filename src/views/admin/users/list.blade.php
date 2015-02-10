@@ -19,7 +19,7 @@
   <a href="{{Config::get('admin::routes.admin.url')}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
   <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
   <a href="#" id="groupBtn" class="btn btn-danger disabled"><i class="fa fa-1x fa-group"></i> Manage Roles</a>
-  <a href="#" id="resetPwdBtn" class="btn btn-default disabled"><i class="fa fa-1x fa-unlock"></i> Reset Password</a>
+  <a href="#" id="resetPwdBtn" class="btn btn-default disabled" data-toggle="modal" data-target="#resetPwdModal"><i class="fa fa-1x fa-unlock"></i> Reset Password</a>
   <hr>
   
   <div class="col-sm-3">
@@ -97,6 +97,35 @@
     </div>
   </div>
 
+<div class="">
+  <!-- Modal -->
+  <div class="modal fade" id="resetPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Please confirm!</h4>
+        </div>
+        <div class="modal-body">
+          Hi there, We need your confirmation to reset the password.
+        </div>
+        <div class="modal-footer">
+          <div class="pull-left checkbox">
+            <label>
+              <input type="checkbox" id="resetConfirmSendThruEmail" name="send_thru_email" checked> Send the password to the user via email
+            </label>
+          </div>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="resetConfirmBtn" class="btn btn-primary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
 @stop
 
 @section('javascript')
@@ -120,8 +149,17 @@
         var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/roles";
         $("#groupBtn").attr("href", url);
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/reset-password";
-        $("#resetPwdBtn").attr("href", url);
+        $("#resetConfirmBtn").on('click', function(e) {
+          var sendToEmail = $("#resetConfirmSendThruEmail").is(':checked');
+            $.getJSON("{{Config::get('admin::routes.admin_user_reset_password.url')}}", {
+              'send_to_email': sendToEmail,
+              'id': user_id
+            }).done(function(data) {
+
+            }).fail(function() {
+              console.log("Error getting the message from the server");
+            });
+        });
 
       } else {
         $("#pencilBtn").addClass("disabled");

@@ -27,12 +27,12 @@ Change your password
         <input type="password" required name="old_password" class="form-control">
       </div>
       <div class="form-group">
-        <label>Re-type Old Password</label>
-        <input type="password" required name="re_old_password" class="form-control">
-      </div>
-      <div class="form-group">
         <label>New Password</label>
         <input type="password" required name="new_password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <input type="password" required name="confirm_new_password" class="form-control">
       </div>
       <div class="form-group pull-right">
         <button type="submit" class="btn btn-success">Change</button>
