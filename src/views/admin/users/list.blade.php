@@ -110,14 +110,8 @@
           Hi there, We need your confirmation to reset the password.
         </div>
         <div class="modal-footer">
-          <div class="pull-left checkbox">
-            <label>
-              <input type="checkbox" id="resetConfirmSendThruEmail" name="send_thru_email" checked> Send the password to the user via email
-            </label>
-          </div>
-
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" id="resetConfirmBtn" class="btn btn-primary">Reset</button>
+          <button type="button" id="resetConfirmBtn" data-loading-text="Loading..." class="btn btn-primary">Reset</button>
         </div>
       </div>
     </div>
@@ -150,15 +144,16 @@
         $("#groupBtn").attr("href", url);
 
         $("#resetConfirmBtn").on('click', function(e) {
-          var sendToEmail = $("#resetConfirmSendThruEmail").is(':checked');
-            $.getJSON("{{Config::get('admin::routes.admin_user_reset_password.url')}}", {
-              'send_to_email': sendToEmail,
-              'id': user_id
-            }).done(function(data) {
+          $(this).button('loading');
+          $(this).button('reset');
 
-            }).fail(function() {
-              console.log("Error getting the message from the server");
-            });
+          $.getJSON("{{Config::get('admin::routes.admin_user_reset_password.url')}}", {
+            'id': user_id
+          }).done(function(data) {
+
+          }).fail(function() {
+            console.log("Error getting the message from the server");
+          });
         });
 
       } else {

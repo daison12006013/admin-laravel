@@ -89,7 +89,6 @@ class UserController extends BaseController
   public function requestAResetPassword()
   {
     $user_id = Input::get('id');
-    $send_to_email = Input::get('send_to_email');
 
     try {
       $user = User::findOrFail($user_id);
@@ -103,21 +102,19 @@ class UserController extends BaseController
     $expires_at = Carbon::now()->addHours(24);
     Cache::put($password_token, $user_id, $expires_at);
 
-    if ($send_to_email) {
-      Mail::send(
-        'admin::emails.reset_password', 
-        array(
-          'user' => $user,
-          'password_token' => $password_token,
-        ),
-        function($message) use ($user) {
-          $message->from(Config::get('admin::general.email.from'), Config::get('admin::general.email.name'));
-          $message
-            ->to($user->email, $user->first_name . ' ' . $user->last_name)
-            ->subject('Password Reset');
-        }
-      );
-    }
+    Mail::send(
+      'admin::emails.reset_password', 
+      array(
+        'user' => $user,
+        'password_token' => $password_token,
+      ),
+      function($message) use ($user) {
+        $message->from(Config::get('admin::general.email.from'), Config::get('admin::general.email.name'));
+        $message
+          ->to($user->email, $user->first_name . ' ' . $user->last_name)
+          ->subject('Password Reset');
+      }
+    );
 
     return Response::JSON([
       'success' => true,
