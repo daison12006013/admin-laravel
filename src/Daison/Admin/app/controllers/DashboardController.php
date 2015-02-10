@@ -1,5 +1,7 @@
 <?php namespace Daison\Admin\App\Controllers;
 
+use Illuminate\Support\Facades\View;
+
 class DashboardController extends BaseController
 {
 
@@ -10,7 +12,7 @@ class DashboardController extends BaseController
    */
   public function index()
   {
-    return \View::make('admin::admin.dashboard.index');
+    return View::make('admin::admin.dashboard.index');
   }
 
 }

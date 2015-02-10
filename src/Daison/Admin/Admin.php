@@ -37,7 +37,7 @@ class Admin
    * @param unknown $p8         (optional)
    * @return unknown
    */
-  private function setRoute($val, $p1 = null, $p2 = null, $p3 = null, $p4 = null, $p5 = null, $p6 = null, $p7 = null, $p8 = null)
+  private function setRoute($val)
   {
     $url = explode('@', $val['uses']);
     $controller = $url[0];

@@ -6,8 +6,124 @@ use Daison\Admin\App\Models\Role;
 use Daison\Admin\App\Models\UserHasRole;
 use Daison\Admin\App\Models\Searcher;
 
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use Carbon\Carbon;
+
 class UserController extends BaseController
 {
+
+  public function showResetPassword($token)
+  {
+    $user_found = true;
+
+    try {
+      if (! Cache::has($token)) {
+        $user_found = false;
+        throw new \Exception('Token ' . $token . ' not found.');
+      }
+
+      try {
+        $user_id = Cache::get($token);
+        $user = User::findOrFail($user_id);
+      } catch (ModelNotFoundException $e) {
+        Log::error($e->getMessage());
+      }
+
+    } catch (\Exception $e) {
+      Log::error($e->getMessage());
+    }
+
+    return View::make('admin::admin.users.reset_password')->withUserFound($user_found);
+  }
+
+  public function saveResettedPassword($token)
+  {
+    $new_password = Input::get('new_password');
+    $confirm_new_password = Input::get('confirm_new_password');
+
+    $user_found = true;
+
+    try {
+      if (! Cache::has($token)) {
+        $user_found = false;
+        throw new \Exception('Token not found.');
+      }
+
+      if ($new_password != $confirm_new_password) {
+        throw new \Exception(Config::get('admin::lang/lang.password_new_pass_and_re'));
+      }
+
+      $this->_checkPasswordRules($new_password);
+
+      $user = User::find(Cache::get($token));
+      if (! $user) {
+        throw new \Exception('User not found.');
+      }
+
+      $user->password = Hash::make($new_password);
+      $user->save();
+
+      Cache::forget($token);
+      
+      return Redirect::to(URL::to(Config::get('admin::routes.admin.url')))
+        ->withSuccess(Config::get('admin::lang/lang.password_success'));
+    } catch(\Exception $e) {
+      return Redirect::to(URL::previous())
+        ->withUserFound($user_found)
+        ->withError($e->getMessage());
+    }
+  }
+
+  public function requestAResetPassword()
+  {
+    $user_id = Input::get('id');
+    $send_to_email = Input::get('send_to_email');
+
+    try {
+      $user = User::findOrFail($user_id);
+    } catch (ModelNotFoundException $e) {
+      Log::error($e->getMessage());
+      throw $e;
+    }
+
+    $password_token = sha1(date('YmdHis') . $user_id . md5(microtime()));
+
+    $expires_at = Carbon::now()->addHours(24);
+    Cache::put($password_token, $user_id, $expires_at);
+
+    if ($send_to_email) {
+      Mail::send(
+        'admin::emails.reset_password', 
+        array(
+          'user' => $user,
+          'password_token' => $password_token,
+        ),
+        function($message) use ($user) {
+          $message->from(Config::get('admin::general.email.from'), Config::get('admin::general.email.name'));
+          $message
+            ->to($user->email, $user->first_name . ' ' . $user->last_name)
+            ->subject('Password Reset');
+        }
+      );
+    }
+
+    return Response::JSON([
+      'success' => true,
+      'password_token' => $password_token,
+    ]);
+  }
 
   /**
    *
@@ -16,7 +132,7 @@ class UserController extends BaseController
    */
   public function showChangePassword()
   {
-    return \View::make('admin::admin.settings.change_password');
+    return View::make('admin::admin.settings.change_password');
   }
 
   /**
@@ -24,34 +140,32 @@ class UserController extends BaseController
    *
    * @return unknown
    */
-  public function updatePassword()
+  public function saveChangedPassword()
   {
-    $old_password = \Input::get('old_password');
-    $new_password = \Input::get('new_password');
-
-    $rules = new Rules($new_password);
+    $old_password = Input::get('old_password');
+    $new_password = Input::get('new_password');
 
     try {
-      if ($old_password != \Input::get('re_old_password')) {
-        throw new \Exception(\Config::get('admin::lang/lang.password_old_pass_and_re'));
+      if ($new_password != Input::get('confirm_new_password')) {
+        throw new \Exception(Config::get('admin::lang/lang.password_new_pass_and_re'));
       }
 
-      if (! Hash::check($old_password, \Auth::user()->password)) {
-        throw new \Exception(\Config::get('admin::lang/lang.password_db_not_match'));
+      if (! Hash::check($old_password, Auth::user()->password)) {
+        throw new \Exception(Config::get('admin::lang/lang.password_db_not_match'));
       }
 
       $this->_checkPasswordRules($new_password);
 
-      $user = User::find(\Auth::user()->id);
+      $user = User::find(Auth::user()->id);
       $user->password = Hash::make($new_password);
       $user->save();
 
-      return \Redirect
-      ::to(\Config::get('admin::routes.admin_changepass.url'))
-      ->withSuccess(\Config::get('admin::lang/lang.password_success'));
+      return Redirect
+        ::to(Config::get('admin::routes.admin_changepass.url'))
+        ->withSuccess(Config::get('admin::lang/lang.password_success'));
 
     } catch (\Exception $e) {
-      return \Redirect::to(\Config::get('admin::routes.admin_changepass.url'))->withError($e->getMessage())->withInput();
+      return Redirect::to(Config::get('admin::routes.admin_changepass.url'))->withError($e->getMessage())->withInput();
     }
 
     return;
@@ -73,12 +187,12 @@ class UserController extends BaseController
       'last_name' => 'like',
     ])->filter();
     $searcher->sortAndOrder();
-    $users = $searcher->getTable()->paginate(\Config::get('admin::general.user_lists_count'));
+    $users = $searcher->getTable()->paginate(Config::get('admin::general.user_lists_count'));
 
-    return \View::make('admin::admin.users.list')
+    return View::make('admin::admin.users.list')
       ->withUsers($users)
       ->withSearcher($searcher)
-      ->withInput(\Input::all());
+      ->withInput(Input::all());
   }
 
   /**
@@ -91,7 +205,7 @@ class UserController extends BaseController
   {
     $user = $this->_findUser($id);
 
-    return \View::make('admin::admin.users.edit')->withUser($user);
+    return View::make('admin::admin.users.edit')->withUser($user);
   }
 
   /**
@@ -102,14 +216,14 @@ class UserController extends BaseController
    */
   public function saveEdit($id)
   {
-    $post = \Input::all();
+    $post = Input::all();
 
     $user = $this->_findUser($id);
 
     $user->updateInformation($post);
     $user->save();
 
-    return \View::make('admin::admin.users.edit')->withUser($user)->withSuccessMessage(\Config::get('admin::lang/lang.user_changed_info_msg'));
+    return View::make('admin::admin.users.edit')->withUser($user)->withSuccessMessage(Config::get('admin::lang/lang.user_changed_info_msg'));
   }
 
   /**
@@ -119,7 +233,7 @@ class UserController extends BaseController
    */
   public function showAdd()
   {
-    return \View::make('admin::admin.users.add');
+    return View::make('admin::admin.users.add');
   }
 
   /**
@@ -129,9 +243,9 @@ class UserController extends BaseController
    */
   public function saveAdd()
   {
-    $post = \Input::all();
+    $post = Input::all();
 
-    $redirect_to = \Redirect::to(\Config::get('admin::routes.admin_user_add.url'));
+    $redirect_to = Redirect::to(Config::get('admin::routes.admin_user_add.url'));
 
     // Try to check the password rules
     try {
@@ -150,12 +264,12 @@ class UserController extends BaseController
       $user->save();
     } catch(\Exception $e)
     {
-      $msg = \Config::get('admin::lang/lang.user_add_err_msg');
+      $msg = Config::get('admin::lang/lang.user_add_err_msg');
       return $redirect_to->withInput()->withError($msg);
     }
 
 
-    $msg = \Config::get('admin::lang/lang.user_add_info_msg');
+    $msg = Config::get('admin::lang/lang.user_add_info_msg');
     return $redirect_to->withSuccess($msg);
   }
 
@@ -170,15 +284,15 @@ class UserController extends BaseController
   {
     $rules = new Rules($password);
 
-    $min = \Config::get('admin::general.password_settings.min');
-    $has_number = \Config::get('admin::general.password_settings.has_number');
-    $has_special_char = \Config::get('admin::general.password_settings.has_special_char');
-    $has_upper_and_lower = \Config::get('admin::general.password_settings.has_upper_and_lower');
+    $min = Config::get('admin::general.password_settings.min');
+    $has_number = Config::get('admin::general.password_settings.has_number');
+    $has_special_char = Config::get('admin::general.password_settings.has_special_char');
+    $has_upper_and_lower = Config::get('admin::general.password_settings.has_upper_and_lower');
 
-    $min_m = \Config::get('admin::lang/lang.password_min_err');
-    $has_number_m = \Config::get('admin::lang/lang.password_has_number_err');
-    $has_special_char_m = \Config::get('admin::lang/lang.password_has_special_err');
-    $has_upper_and_lower_m = \Config::get('admin::lang/lang.password_up_low_err');
+    $min_m = Config::get('admin::lang/lang.password_min_err');
+    $has_number_m = Config::get('admin::lang/lang.password_has_number_err');
+    $has_special_char_m = Config::get('admin::lang/lang.password_has_special_err');
+    $has_upper_and_lower_m = Config::get('admin::lang/lang.password_up_low_err');
 
     try {
       $result = $rules
@@ -210,7 +324,7 @@ class UserController extends BaseController
     $user_roles = $user->roles;
     $available_roles = Role::orderBy('name', 'ASC')->get();
 
-    return \View::make('admin::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
+    return View::make('admin::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
   }
 
   /**
@@ -225,10 +339,10 @@ class UserController extends BaseController
 
     $role = new UserHasRole;
     $role->user_id = $id;
-    $role->role_id = \Input::get('role_id');
+    $role->role_id = Input::get('role_id');
     $role->save();
 
-    return \Redirect::to(\URL::previous())->withSuccess(\Config::get('admin::lang/lang.role_saved'));
+    return Redirect::to(URL::previous())->withSuccess(Config::get('admin::lang/lang.role_saved'));
   }
 
   /**
@@ -244,7 +358,7 @@ class UserController extends BaseController
 
     $user_has_role->delete();
 
-    return \Redirect::to(\URL::previous())->withSuccess(\Config::get('admin::lang/lang.role_deleted'));
+    return Redirect::to(URL::previous())->withSuccess(Config::get('admin::lang/lang.role_deleted'));
   }
 
   /**

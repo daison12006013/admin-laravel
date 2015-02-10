@@ -2,6 +2,12 @@
 
 use Daison\Admin\App\Models\Role;
 
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+
 class RoleController extends BaseController
 {
 
@@ -24,7 +30,7 @@ class RoleController extends BaseController
       $recs[$role['id']]['count'] = count($role['users']);
     }
 
-    return \View::make('admin::admin.roles.list')->withRecords($recs);
+    return View::make('admin::admin.roles.list')->withRecords($recs);
   }
 
 
@@ -35,7 +41,7 @@ class RoleController extends BaseController
    */
   public function showAdd()
   {
-    return \View::make('admin::admin.roles.add');
+    return View::make('admin::admin.roles.add');
   }
 
 
@@ -46,22 +52,22 @@ class RoleController extends BaseController
    */
   public function saveAdd()
   {
-    $role_name = \Input::get('name');
-    $redirect_to = \Redirect::to(\URL::previous());
+    $role_name = Input::get('name');
+    $redirect_to = Redirect::to(URL::previous());
 
     if (empty($role_name)) {
-      return $redirect_to->withError(\Config::get('admin::lang/lang.role_add_err_msg'));
+      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_err_msg'));
     }
 
     if (count(explode(' ', $role_name)) > 1) {
-      return $redirect_to->withError(\Config::get('admin::lang/lang.role_add_space_err_msg'));
+      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_space_err_msg'));
     }
 
     $role = new Role;
     $role->name = $role_name;
     $role->save();
 
-    return $redirect_to->withSuccess(\Config::get('admin::lang/lang.role_add_info_msg'));
+    return $redirect_to->withSuccess(Config::get('admin::lang/lang.role_add_info_msg'));
   }
 
 
@@ -75,7 +81,7 @@ class RoleController extends BaseController
   {
     $role = $this->_getRole($id);
 
-    return \View::make('admin::admin.roles.edit')->withRole($role);
+    return View::make('admin::admin.roles.edit')->withRole($role);
   }
 
 
@@ -88,21 +94,21 @@ class RoleController extends BaseController
   public function saveEdit($id)
   {
     $role = $this->_getRole($id);
-    $role_name = \Input::get('name');
-    $redirect_to = \Redirect::to(\URL::previous());
+    $role_name = Input::get('name');
+    $redirect_to = Redirect::to(URL::previous());
 
     if (empty($role_name)) {
-      return $redirect_to->withError(\Config::get('admin::lang/lang.role_add_err_msg'));
+      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_err_msg'));
     }
 
     if (count(explode(' ', $role_name)) > 1) {
-      return $redirect_to->withError(\Config::get('admin::lang/lang.role_add_space_err_msg'));
+      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_space_err_msg'));
     }
 
     $role->name = $role_name;
     $role->save();
 
-    return $redirect_to->withSuccess(\Config::get('admin::lang/lang.role_edit_info_msg'));
+    return $redirect_to->withSuccess(Config::get('admin::lang/lang.role_edit_info_msg'));
   }
 
 

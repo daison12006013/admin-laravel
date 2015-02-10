@@ -2,6 +2,13 @@
 
 use Daison\Admin\App\Models\User;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Config;
+
 class SecurityController extends BaseController
 {
 
@@ -12,7 +19,7 @@ class SecurityController extends BaseController
    */
   public function index()
   {
-    return \View::make('admin::admin.layouts.login');
+    return View::make('admin::admin.layouts.login');
   }
 
   /**
@@ -22,15 +29,15 @@ class SecurityController extends BaseController
    */
   public function login()
   {
-    $email = \Input::get('email');
-    $password = \Input::get('password');
+    $email = Input::get('email');
+    $password = Input::get('password');
 
-    if (\Auth::attempt(array('email' => $email, 'password' => $password))) {
-      \Session::put('roles', User::find(\Auth::user()->id)->roles);
-      return \Redirect::to('/admin/dashboard');
+    if (Auth::attempt(array('email' => $email, 'password' => $password))) {
+      Session::put('roles', User::find(Auth::user()->id)->roles);
+      return Redirect::to('/admin/dashboard');
     }
 
-    return \Redirect::to('/admin')->withError(\Config::get('admin::lang/lang.user_not_found_message'));
+    return Redirect::to('/admin')->withError(Config::get('admin::lang/lang.user_not_found_message'));
   }
 
   /**
@@ -40,8 +47,8 @@ class SecurityController extends BaseController
    */
   public function logout()
   {
-    \Auth::logout();
+    Auth::logout();
 
-    return \Redirect::to('/admin');
+    return Redirect::to('/admin');
   }
 }
