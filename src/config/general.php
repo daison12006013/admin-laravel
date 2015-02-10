@@ -7,6 +7,11 @@ return [
   'site_name'                     => 'SENS',
   'version'                       => '1.0.0',
 
+  'email'             => [
+    'from'                        => \Config::get('app.email.from'),
+    'name'                        => \Config::get('app.email.name'),
+  ],
+
   'password_settings' => [
     'min'                         => 8,
     'has_number'                  => false,

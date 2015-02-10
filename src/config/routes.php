@@ -58,6 +58,14 @@ return [
     'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@showLists',
   ],
+
+  'admin_user_reset_password' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/reset-password',
+    'is_auth'           => true,
+    'roles'             => ['superuser'],
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@requestAResetPassword',
+  ],
   
   'admin_user_add' => [
     'process'           => 'get',
@@ -166,7 +174,21 @@ return [
     'process'           => 'post',
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@updatePassword',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveChangedPassword',
   ],
+
+  'admin_resetpassword' => [
+    'process'           => 'get',
+    'url'               => '/admin/reset-password/{token}',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@showResetPassword',
+  ],
+
+  'admin_resetpassword_save' => [
+    'process'           => 'post',
+    'url'               => '/admin/reset-password/{token}',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveResettedPassword',
+  ],
+
+
 
 ];

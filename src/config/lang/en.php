@@ -9,9 +9,9 @@ return [
   'password_has_number_err'   => 'Password must have atleast one number.',
   'password_has_special_err'  => 'Password must have atleast one special character.',
   'password_up_low_err'       => 'Password must have an upper and lower character.',
-  'password_old_pass_and_re'  => 'Old password and Re-type password did not match.',
   'password_db_not_match'     => 'Old password did not match our record.',
   'password_success'          => 'You have successfully changed your password.',
+  'password_new_pass_and_re'  => 'New password and Confirm New Password did not match.',
 
   'user_changed_info_msg'     => 'You have successfully changed this profile.',
   'user_add_err_msg'          => 'Email already exists.',
