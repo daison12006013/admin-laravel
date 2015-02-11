@@ -68,12 +68,12 @@ return [
         'url' => '#',
         'items' => [
             'report1' => [
-                'name' => 'Import Courier A',
-                'url' => '/admin/report/import-courier-a',
+                'name' => '<span style="font-size:11px;">Import Incoming Submissions</span>',
+                'url' => '/admin/report/import-incoming-submission',
             ],
             'report2' => [
-                'name' => 'Import Courier B',
-                'url' => '/admin/report/import-courier-b',
+                'name' => 'Import Delivered Copy',
+                'url' => '/admin/report/import-delivered-copy',
             ],
         ],
     ],
