@@ -23,8 +23,8 @@ return [
         'name' => 'Tagging',
         'icon' => 'fa fa-edit fa-fw',
         'url' => '#',
+        'roles' => ['superuser', 'supervisor', 'agent'],
         'items' => [
-
 
             'receiving' => [
                 'name'      => 'Receiving',
