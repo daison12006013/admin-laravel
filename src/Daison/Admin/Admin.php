@@ -47,7 +47,7 @@ class Admin
 
         // check if user attempted to login
         // check if the user roles if it linked to the route roles.
-        if (\Auth::check() == true && $this->hasAnAccess($param) == false ) {
+        if (\Auth::check() == true && $this->hasAnAccess(@$param['roles']) == false ) {
           $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $param['url'];
           \Log::error($msg);
           return \Response::view('admin::admin.errors.roles', [], 404);
@@ -66,13 +66,13 @@ class Admin
    * @param mixed $param
    * @return bool
    */
-  public function hasAnAccess($param)
+  public function hasAnAccess($roles)
   {
-    if (! isset($param['roles'])) {
+    if (empty($roles)) {
       return true;
     }
 
-    if (count($param['roles']) <= 0) {
+    if (count($roles) <= 0) {
       return true;
     }
 
@@ -80,17 +80,12 @@ class Admin
     $user->roles;
 
     foreach ($user['roles'] as $role) {
-      if (in_array($role['name'], $param['roles'])) {
+      if (in_array($role['name'], $roles)) {
         return true;
       }
     }
 
-    $current_url = \URL::to(\Route::getCurrentRoute()->getPath());
-    if (\URL::to($param['url']) == trim($current_url, '/')) {
-      return false;
-    } else {
-      return true;
-    }
+    return false;
   }
 
 
@@ -100,7 +95,7 @@ class Admin
    * @param mixed $param
    * @return bool
    */
-  public function isAuthenticated($param)
+  private function isAuthenticated($param)
   {
     $current_url = \URL::to(\Route::getCurrentRoute()->getPath());
 
