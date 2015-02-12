@@ -67,7 +67,6 @@
   <?php
     $order_reverse = ($searcher->getOrderBy() == 'asc') ? 'desc': 'asc';
     $current_url = URL::current();
-    $users->setBaseUrl($current_url . '?' . $searcher->parseUrl());
   ?>
   <div class="col-sm-9">
     <div class="table-responsive">
@@ -93,7 +92,7 @@
       </table>
     </div>
     <div class="links">
-      {{$users->links()}}
+      {{$users->appends(Input::all())->links()}}
     </div>
   </div>
 

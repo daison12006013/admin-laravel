@@ -12,7 +12,7 @@ Change your password
 @stop
 
 @section('content')
-  <div class="col-sm-6">
+  <div class="col-sm-12">
     @if (Session::has('success'))
       <div class="alert alert-success">{{Session::get('success')}}</div>
     @endif
