@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\HTML;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Carbon\Carbon;
@@ -90,14 +91,19 @@ class UserController extends BaseController
   {
     $user_id = Input::get('id');
 
+    $new_password = str_random(30);
+    $password_token = str_random(50);
+    
+
     try {
       $user = User::findOrFail($user_id);
+      $user->password = Hash::make($new_password);
+      $user->save();
+
     } catch (ModelNotFoundException $e) {
       Log::error($e->getMessage());
       throw $e;
     }
-
-    $password_token = sha1(date('YmdHis') . $user_id . md5(microtime()));
 
     $expires_at = Carbon::now()->addHours(24);
     Cache::put($password_token, $user_id, $expires_at);
@@ -118,7 +124,7 @@ class UserController extends BaseController
 
     return Response::JSON([
       'success' => true,
-      'password_token' => $password_token,
+      'message' => HTML::decode(parse_text(Config::get('admin::lang/lang.password_reset_req_success'), ['password' => $new_password])),
     ]);
   }
 

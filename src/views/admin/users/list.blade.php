@@ -107,10 +107,12 @@
         </div>
         <div class="modal-body">
           Hi there, We need your confirmation to reset the password.
+          <div style="margin-top:20px;display:none;" class="resetPwdResponseBox alert alert-info"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" id="resetConfirmBtn" data-loading-text="Loading..." class="btn btn-primary">Reset</button>
+          <a class="" href="#" id="selected" data-role="button"></a>
         </div>
       </div>
     </div>
@@ -142,13 +144,21 @@
         var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/roles";
         $("#groupBtn").attr("href", url);
 
-        $("#resetConfirmBtn").on('click', function(e) {
-          $(this).button('loading');
-          $(this).button('reset');
+        $("#resetConfirmBtn").on('click', function() {
+          var resetConfirmBtn = $(this);
+          var oldTitle = $(this).text();
+
+          $(this).addClass('disabled');
+          $(this).text('Loading...');
 
           $.getJSON("{{Config::get('admin::routes.admin_user_reset_password.url')}}", {
             'id': user_id
           }).done(function(data) {
+            resetConfirmBtn.removeClass('disabled');
+            resetConfirmBtn.text(oldTitle);
+
+            $('#resetPwdModal .resetPwdResponseBox').slideDown();
+            $('#resetPwdModal .resetPwdResponseBox').html(data.message);
 
           }).fail(function() {
             console.log("Error getting the message from the server");

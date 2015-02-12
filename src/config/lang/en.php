@@ -12,6 +12,7 @@ return [
   'password_db_not_match'     => 'Old password did not match our record.',
   'password_success'          => 'You have successfully changed your password.',
   'password_new_pass_and_re'  => 'New password and Confirm New Password did not match.',
+  'password_reset_req_success'=> 'You have requested to reset the password, the user will get notified via email to change the password. The session to change the password will expire within 24hours. <br><br>While we can provide a temporary system generated password, please check below.<br><br><p style="font-size:15px;"><b>New Password: </b> {password}</p>',
 
   'user_changed_info_msg'     => 'You have successfully changed this profile.',
   'user_add_err_msg'          => 'Email already exists.',

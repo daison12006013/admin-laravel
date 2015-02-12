@@ -21,7 +21,7 @@
         </td>
       </tr>
       <tr style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;page-break-inside: avoid;"><?php
-          $url = link_resource(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
+          $url = parse_text(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
         ?><td style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 15px 0 !important;border: 0 !important;background-color: #fff!important;">
           <a href="{{$url}}" style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;background: 0 0;color: #428bca;text-decoration: underline;">{{$url}}</a>
         </td>

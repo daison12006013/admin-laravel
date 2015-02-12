@@ -33,7 +33,7 @@
         </td>
       </tr>
       <tr><?php
-          $url = link_resource(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
+          $url = parse_text(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
         ?><td>
           <a href="{{$url}}">{{$url}}</a>
         </td>

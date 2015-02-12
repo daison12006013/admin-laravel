@@ -1,14 +1,14 @@
 <?php
 
-if (! function_exists('link_resource')) {
-  function link_resource($url, $arr)
+if (! function_exists('parse_text')) {
+  function parse_text($text, $arr)
   {
-    $link = preg_replace_callback('/{(.*?)}/', function($match) use ($arr) {
-      if ( isset($arr[$match[1]]) ) {
-        return $arr[$match[1]];
+    $parsed_text = preg_replace_callback('/{(.*?)}/', function($m) use ($arr) {
+      if ( isset($arr[$m[1]]) ) {
+        return $arr[$m[1]];
       }
-    }, $url);
+    }, $text);
 
-    return $link;
+    return $parsed_text;
   }
 }
