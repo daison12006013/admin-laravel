@@ -27,14 +27,15 @@ class Admin
    *
    *
    */
-  protected function setRoute($param)
+  protected function setRoute($param, $routeParam = null)
   {
-    $url = explode('@', $param['uses']);
-    $controller = $url[0];
-    $action = $url[1];
+    $uses = explode('@', $param['uses']);
+    $controller = $uses[0];
+    $action = $uses[1];
 
     \Route::{$param['process']}($param['url'],
-      function($p1=null, $p2=null, $p3=null, $p4=null, $p5=null, $p6=null, $p7=null, $p8=null, $p9=null, $p10=null)
+      // $p1=null, $p2=null, $p3=null, $p4=null, $p5=null, $p6=null, $p7=null, $p8=null, $p9=null, $p10=null
+      function()
       use ($param, $controller, $action)
       {
 
@@ -48,13 +49,13 @@ class Admin
         // check if user attempted to login
         // check if the user roles if it linked to the route roles.
         if (\Auth::check() == true && $this->hasAnAccess(@$param['roles']) == false ) {
-          $msg = 'Access not allowed for ' . \Auth::user()->email . ' accessing ' . $param['url'];
+          $msg = 'Access not allowed for ' . json_encode(\Auth::user()) . ' accessing ' . $param['url'];
           \Log::error($msg);
           return \Response::view('admin::admin.errors.roles', [], 404);
         }
 
 
-        return \App::make($controller)->{$action}($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10);
+        return call_user_func_array([\App::make($controller), $action], func_get_args());
       }
     );
   }
