@@ -91,7 +91,7 @@ class Searcher
   public function sortAndOrder($request)
   {
     if (strlen(@$request['sort']) != 0) {
-      $this->sort_key = \Input::get('sort');
+      $this->sort_key = @$request['sort'];
     }
 
     $this->order_by = (@$request['order'] == 'desc') ? 'desc' : 'asc';
@@ -151,5 +151,7 @@ class Searcher
   public function setTable($table)
   {
     $this->table = $table;
+
+    return $this;
   }
 }
