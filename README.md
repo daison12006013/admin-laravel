@@ -128,8 +128,35 @@ Based from our navigation links, we need to create a route to assign the control
   Now create your SampleController / InventoryController and it's up to you to handle the responses. You can even assign ``'roles' => ['superuser']`` to restrict each request, you can also provide ``'is_auth' => true`` to redirect guest to the login page.
 
 
+####Still using Main Routes
+  So you still want to use the main `app/routes.php`, however you want to use the roles management to your routes.
+Go to your controller `__construct` and do the constructor injection.
 
-
+```
+  use Daison\Admin\Admin;
+  
+  class MyController
+  {
+    private $admin;
+    public function __construct(Admin $admin)
+    {
+      $this->admin = $admin;
+    }
+    
+    public function showProfile()
+    {
+      if ($this->admin->hasAnAccess(['superuser','agent']) == false) {
+        // It means the Authenticated user doesn't have roles
+        // Redirect the user, show the access not allowed page... and so on..
+      }
+    }
+    
+    public function saveProfile()
+    {
+      // same thing as the showProfile() method.
+    }
+  }
+```
 
 
 ------------------------------------------------------------------------------------------
