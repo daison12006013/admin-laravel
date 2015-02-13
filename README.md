@@ -15,7 +15,7 @@ Anyhow, I'm using this basis <a href="http://www.blacktie.co/demo/dashgumfree/">
 Include this to your composer, if you want the most updated branch, use ``dev-master``
 ```
   	"require": {
-  		"daison/admin-laravel": "1.0.0"
+  		"daison/admin-laravel": "1.1.0"
   	}
 ```
 
