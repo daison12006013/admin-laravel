@@ -1,5 +1,5 @@
 <form class="form-vertical" method="GET">
-  <legend>Search Panel</legend>
+  <h4>Search Panel</h4>
 
   <?php
   $input = array_dot(Input::all());

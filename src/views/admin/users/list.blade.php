@@ -23,8 +23,7 @@
   <hr>
   
   <div class="col-sm-3">
-    <div class="well">
-      @include('admin::admin.layouts.search_panel', [
+      @include('admin::admin.tools.search_panel', [
         'forms' => 
         [
           [
@@ -61,7 +60,6 @@
           ],
         ],
       ])
-    </div>
   </div>
 
   <?php
