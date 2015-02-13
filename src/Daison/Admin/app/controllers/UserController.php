@@ -91,7 +91,7 @@ class UserController extends BaseController
   {
     $user_id = Input::get('id');
 
-    $new_password = str_random(30);
+    $new_password = Config::get('admin::general.password_settings.reset_prefix') . str_random(30);
     $password_token = str_random(50);
     
 
