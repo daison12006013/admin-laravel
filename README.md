@@ -1,3 +1,10 @@
+# What I am looking for?
+<ul>
+  <li>Developer - who can help me to change, trim, and to add feature.</li>
+  <li>Translator - you can help by translating the response message.</li>
+  <li>Designer - yes I'm looking for a designer to transform this package into a unique design, instead of using free designs</li>
+</ul>
+
 # Laravel Admin
 I'm still keep on updating this admin package, when you are using the ``dev-master`` you will see some sample routes and navigation links, those are my examples to test all the functionality of this package. Each release has a branch and you need to switch for the said branch you used for specific README file.
 
