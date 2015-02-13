@@ -2,7 +2,7 @@
 
 return [
 
-  'site_name'                     => 'SENS',                                     // Your system name
+  'site_name'                     => 'ACME',                                     // Your system name
   'version'                       => '1.0.0',                                    // Current system version, try to hover your mouse to your system name upon logging in
   'language'                      => 'en',                                       // Language to use, check config/lang/{en}.php
 
