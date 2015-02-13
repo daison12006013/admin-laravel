@@ -194,7 +194,7 @@
 
       @if (isset($disable_sidebar) && $disable_sidebar)
         $(window).load(function() {
-          $('#nav-accordion').close();
+          $('#nav-accordion').stop();
         });
       @endif
   </script>
