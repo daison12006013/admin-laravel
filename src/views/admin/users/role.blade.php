@@ -40,7 +40,7 @@
           </tr>
         @empty
           <tr>
-            <td><i>{{Config::get('admin::lang/lang.no_group_found')}}</i></td>
+            <td><i>{{Config::get('admin::lang/lang.role_not_found')}}</i></td>
           </tr>
         @endforelse
       </table>
