@@ -68,6 +68,12 @@ return [
     'roles'             => ['superuser'],
     'uses'              => 'Daison\Admin\App\Controllers\UserController@requestAResetPassword',
   ],
+
+  'admin_user_forgot_password' => [
+    'process'           => 'get',
+    'url'               => '/admin/user/forgot-password',
+    'uses'              => 'Daison\Admin\App\Controllers\UserController@requestAForgotPassword',
+  ],
   
   'admin_user_add' => [
     'process'           => 'get',

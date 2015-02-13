@@ -99,13 +99,16 @@ class UserController extends BaseController
       $user = User::findOrFail($user_id);
       $user->password = Hash::make($new_password);
       $user->save();
-
     } catch (ModelNotFoundException $e) {
+
+      // In the first place, the $user_id should be correct
+      // We don't need to show any message
+      // Just log the error
       Log::error($e->getMessage());
       throw $e;
     }
 
-    $expires_at = Carbon::now()->addHours(24);
+    $expires_at = Carbon::now()->addHours(Config::get('admin::general.password_settings.reset_session_hours'));
     Cache::put($password_token, $user_id, $expires_at);
 
     Mail::send(
@@ -118,13 +121,55 @@ class UserController extends BaseController
         $message->from(Config::get('admin::general.email.from'), Config::get('admin::general.email.name'));
         $message
           ->to($user->email, $user->first_name . ' ' . $user->last_name)
-          ->subject('Password Reset');
+          ->subject('Administrator Password Reset');
       }
     );
 
     return Response::JSON([
       'success' => true,
       'message' => HTML::decode(parse_text(Config::get('admin::lang/lang.password_reset_req_success'), ['password' => $new_password])),
+    ]);
+  }
+
+  /**
+   *
+   * 
+   * @return mixed
+   */
+  public function requestAForgotPassword()
+  {
+    $email = Input::get('email');
+
+    try {
+      $user = User::where('email', '=', $email)->firstOrFail();
+    } catch (ModelNotFoundException $e) {
+      return Response::JSON([
+        'success' => false,
+        'message' => HTML::decode(Config::get('admin::lang/lang.password_nouser_forgot_req')),
+      ]);
+    }
+
+    $password_token = str_random(50);
+    $expires_at = Carbon::now()->addHours(Config::get('admin::general.password_settings.reset_session_hours'));
+    Cache::put($password_token, $user->id, $expires_at);
+
+    Mail::send(
+      'admin::emails.reset_password', 
+      array(
+        'user' => $user,
+        'password_token' => $password_token,
+      ),
+      function($message) use ($user) {
+        $message->from(Config::get('admin::general.email.from'), Config::get('admin::general.email.name'));
+        $message
+          ->to($user->email, $user->first_name . ' ' . $user->last_name)
+          ->subject('Forgot Password Request');
+      }
+    );
+
+    return Response::JSON([
+      'success' => true,
+      'message' => HTML::decode(Config::get('admin::lang/lang.password_forgot_req_success')),
     ]);
   }
 

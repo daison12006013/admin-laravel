@@ -15,15 +15,16 @@ return [
   | Password Messages
   |----------------------------------------------------------------------------------
    */
-  'password_min_err'          => 'Password must contain atleast 8 alphanumeric character.',
-  'password_has_number_err'   => 'Password must have atleast one number.',
-  'password_has_special_err'  => 'Password must have atleast one special character.',
-  'password_up_low_err'       => 'Password must have an upper and lower character.',
-  'password_db_not_match'     => 'Old password did not match our record.',
-  'password_success'          => 'You have successfully changed your password.',
-  'password_new_pass_and_re'  => 'New password and Confirm New Password did not match.',
-  'password_reset_req_success'=> 'You have requested to reset the password, the user will get notified via email to change the password. The session to change the password will expire within 24hours. <br><br>While we can provide a temporary system generated password, please check below.<br><br><p style="font-size:15px;"><b>New Password: </b> {password}</p>',
-
+  'password_min_err'            => 'Password must contain atleast 8 alphanumeric character.',
+  'password_has_number_err'     => 'Password must have atleast one number.',
+  'password_has_special_err'    => 'Password must have atleast one special character.',
+  'password_up_low_err'         => 'Password must have an upper and lower character.',
+  'password_db_not_match'       => 'Old password did not match our record.',
+  'password_success'            => 'You have successfully changed your password.',
+  'password_new_pass_and_re'    => 'New password and Confirm New Password did not match.',
+  'password_reset_req_success'  => 'You have requested to reset the password, the user will get notified via email to change the password. The session to change the password will expire within ' . Config::get('admin::general.password_settings.reset_session_hours') . 'hours. <br><br>While we can provide a temporary system generated password, please check below.<br><br><p style="font-size:15px;"><b>New Password: </b> {password}</p>',
+  'password_forgot_req_success' => 'You have successfully requested a password reset, an email sent. The session to change your password will expire within ' . Config::get('admin::general.password_settings.reset_session_hours') . 'hours.',
+  'password_nouser_forgot_req'  => 'Email not found, please try again.',
 
   /*---------------------------------------------------------------------------------
   | Users

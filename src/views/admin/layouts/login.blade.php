@@ -65,13 +65,15 @@
                               <h4 class="modal-title">Forgot Password ?</h4>
                           </div>
                           <div class="modal-body">
+                              <div style="display:none;" class="resetPwdResponseBox alert alert-info">
+
+                              </div>
                               <p>Enter your e-mail address below to reset your password.</p>
                               <input type="text" name="email_for_fp" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
-    
                           </div>
                           <div class="modal-footer">
                               <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
-                              <button class="btn btn-theme" type="button">Submit</button>
+                              <button id="resetConfirmBtn" class="btn btn-theme" type="button">Submit</button>
                           </div>
                       </div>
                   </div>
@@ -94,6 +96,31 @@
         $.backstretch("/packages/daison/admin/img/login-bg.jpg", {speed: 500});
     </script>
 
+    <script type="text/javascript">
+      $(function() {
+        $("#resetConfirmBtn").on('click', function() {
+          var resetConfirmBtn = $(this);
+          var oldTitle = $(this).text();
+
+          $(this).addClass('disabled');
+          $(this).text('Loading...');
+
+          var email = $('input[name="email_for_fp"]').val();
+          $.getJSON("{{Config::get('admin::routes.admin_user_forgot_password.url')}}", {
+            'email': email
+          }).done(function(data) {
+            resetConfirmBtn.removeClass('disabled');
+            resetConfirmBtn.text(oldTitle);
+
+            $('.resetPwdResponseBox').slideDown();
+            $('.resetPwdResponseBox').html(data.message);
+
+          }).fail(function() {
+            console.log("Error getting the message from the server");
+          });
+        });
+      });
+    </script>
 
   </body>
 </html>
