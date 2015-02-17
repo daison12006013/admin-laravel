@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/daison12006013/admin-laravel.svg?branch=master)](https://travis-ci.org/daison12006013/admin-laravel)
+
 # What I am looking for?
 <ul>
   <li>Developer - who can help me to change, refactor, and to add a feature.</li>
