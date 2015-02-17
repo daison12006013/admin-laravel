@@ -1,14 +1,14 @@
 # What I am looking for?
 <ul>
-  <li>Developer - who can help me to change, trim, and to add feature.</li>
-  <li>Translator - you can help by translating the response message.</li>
-  <li>Designer - yes I'm looking for a designer to transform this package into a unique design, instead of using free designs</li>
+  <li>Developer - who can help me to change, refactor, and to add a feature.</li>
+  <li>Translator - you can help by translating the response messages.</li>
+  <li>Designer - a designer that can transform the assets into a unique design, instead of using free designs. The credit is yours.</li>
 </ul>
 
 # Laravel Admin
 I'm still keep on updating this admin package, when you are using the ``dev-master`` you will see some sample routes and navigation links, those are my examples to test all the functionality of this package. Each release has a branch and you need to switch for the said branch you used for specific README file.
 
-Anyhow, I'm using this basis <a href="http://www.blacktie.co/demo/dashgumfree/">http://www.blacktie.co/demo/dashgumfree/</a> as my template base, so try to review the design, later on I'll be importing other admin templates that you can use. Thumbs Up!
+Anyhow, I'm using this design <a href="http://www.blacktie.co/demo/dashgumfree/">http://www.blacktie.co/demo/dashgumfree/</a> as my basis, so try to review the code, later on I'll be importing other admin templates that you can easily configure. Thumbs Up!
 
 
 # Start Up
