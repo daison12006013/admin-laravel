@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/daison12006013/admin-laravel.svg?branch=master)](https://travis-ci.org/daison12006013/admin-laravel)
+[![Latest Stable Version](https://poser.pugx.org/daison/admin-laravel/v/stable.svg)](https://packagist.org/packages/daison/admin-laravel) [![Total Downloads](https://poser.pugx.org/daison/admin-laravel/downloads.svg)](https://packagist.org/packages/daison/admin-laravel) [![Latest Unstable Version](https://poser.pugx.org/daison/admin-laravel/v/unstable.svg)](https://packagist.org/packages/daison/admin-laravel) [![License](https://poser.pugx.org/daison/admin-laravel/license.svg)](https://packagist.org/packages/daison/admin-laravel)
 
 # What I am looking for?
 <ul>
