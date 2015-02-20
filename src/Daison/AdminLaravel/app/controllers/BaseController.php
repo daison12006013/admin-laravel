@@ -1,4 +1,4 @@
-<?php namespace Daison\Admin\App\Controllers;
+<?php namespace Daison\AdminLaravel\App\Controllers;
 
 use Illuminate\Routing\Controller;
 

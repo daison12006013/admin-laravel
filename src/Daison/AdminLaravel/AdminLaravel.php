@@ -1,4 +1,4 @@
-<?php namespace Daison\Admin;
+<?php namespace Daison\AdminLaravel;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
-use Daison\Admin\App\Models\User;
+use Daison\AdminLaravel\App\Models\User;
 
-class Admin
+class AdminLaravel
 {
 
 
@@ -49,7 +49,7 @@ class Admin
         // check if the route requires an authentication
         // redirect the guest to the login page
         if (! $this->isAuthenticated($param)) {
-          return Redirect::to(Config::get('admin::routes.admin.url'))->withError(Config::get('admin::lang/lang.login_notifier'));
+          return Redirect::to(Config::get('admin-laravel::routes.admin.url'))->withError(Config::get('admin-laravel::lang/lang.login_notifier'));
         }
 
 
@@ -58,7 +58,7 @@ class Admin
         if (Auth::check() == true && $this->hasAnAccess(@$param['roles']) == false ) {
           $msg = 'Access not allowed for ' . json_encode(Auth::user()) . ' accessing ' . $param['url'];
           \Log::error($msg);
-          return Response::view('admin::admin.errors.roles', [], 404);
+          return Response::view('admin-laravel::admin.errors.roles', [], 404);
         }
 
 

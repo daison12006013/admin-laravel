@@ -7,7 +7,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>Welcome to {{Config::get('admin::general.site_name')}}</title>
+    <title>Welcome to {{Config::get('admin-laravel::general.site_name')}}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/packages/daison/admin/css/bootstrap.css" rel="stylesheet">
@@ -106,7 +106,7 @@
           $(this).text('Loading...');
 
           var email = $('input[name="email_for_fp"]').val();
-          $.getJSON("{{Config::get('admin::routes.admin_user_forgot_password.url')}}", {
+          $.getJSON("{{Config::get('admin-laravel::routes.admin_user_forgot_password.url')}}", {
             'email': email
           }).done(function(data) {
             resetConfirmBtn.removeClass('disabled');

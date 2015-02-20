@@ -1,6 +1,6 @@
-<?php namespace Daison\Admin\App\Controllers;
+<?php namespace Daison\AdminLaravel\App\Controllers;
 
-use Daison\Admin\App\Models\Role;
+use Daison\AdminLaravel\App\Models\Role;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -30,7 +30,7 @@ class RoleController extends BaseController
       $recs[$role['id']]['count'] = count($role['users']);
     }
 
-    return View::make('admin::admin.roles.list')->withRecords($recs);
+    return View::make('admin-laravel::admin.roles.list')->withRecords($recs);
   }
 
 
@@ -41,7 +41,7 @@ class RoleController extends BaseController
    */
   public function showAdd()
   {
-    return View::make('admin::admin.roles.add');
+    return View::make('admin-laravel::admin.roles.add');
   }
 
 
@@ -56,18 +56,18 @@ class RoleController extends BaseController
     $redirect_to = Redirect::to(URL::previous());
 
     if (empty($role_name)) {
-      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_err_msg'));
+      return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_err_msg'));
     }
 
     if (count(explode(' ', $role_name)) > 1) {
-      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_space_err_msg'));
+      return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_space_err_msg'));
     }
 
     $role = new Role;
     $role->name = $role_name;
     $role->save();
 
-    return $redirect_to->withSuccess(Config::get('admin::lang/lang.role_add_info_msg'));
+    return $redirect_to->withSuccess(Config::get('admin-laravel::lang/lang.role_add_info_msg'));
   }
 
 
@@ -81,7 +81,7 @@ class RoleController extends BaseController
   {
     $role = $this->_getRole($id);
 
-    return View::make('admin::admin.roles.edit')->withRole($role);
+    return View::make('admin-laravel::admin.roles.edit')->withRole($role);
   }
 
 
@@ -98,17 +98,17 @@ class RoleController extends BaseController
     $redirect_to = Redirect::to(URL::previous());
 
     if (empty($role_name)) {
-      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_err_msg'));
+      return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_err_msg'));
     }
 
     if (count(explode(' ', $role_name)) > 1) {
-      return $redirect_to->withError(Config::get('admin::lang/lang.role_add_space_err_msg'));
+      return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_space_err_msg'));
     }
 
     $role->name = $role_name;
     $role->save();
 
-    return $redirect_to->withSuccess(Config::get('admin::lang/lang.role_edit_info_msg'));
+    return $redirect_to->withSuccess(Config::get('admin-laravel::lang/lang.role_edit_info_msg'));
   }
 
 

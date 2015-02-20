@@ -1,4 +1,4 @@
-<?php namespace Daison\Admin\App\Models;
+<?php namespace Daison\AdminLaravel\App\Models;
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
@@ -39,7 +39,7 @@ class User extends \Eloquent implements UserInterface, RemindableInterface {
    */
   public function roles()
   {
-    return $this->belongsToMany('Daison\Admin\App\Models\Role', 'user_has_role')->orderBy('name', 'ASC');
+    return $this->belongsToMany('Daison\AdminLaravel\App\Models\Role', 'user_has_role')->orderBy('name', 'ASC');
   }
 
   /**

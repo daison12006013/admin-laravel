@@ -1,4 +1,4 @@
-@extends('admin::admin.layouts.panel')
+@extends('admin-laravel::admin.layouts.panel')
 
 @section('title')
 @stop
@@ -16,14 +16,14 @@
 
 @section('content')
 
-  <a href="{{Config::get('admin::routes.admin.url')}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
+  <a href="{{Config::get('admin-laravel::routes.admin.url')}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
   <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
   <a href="#" id="groupBtn" class="btn btn-danger disabled"><i class="fa fa-1x fa-group"></i> Manage Roles</a>
   <a href="#" id="resetPwdBtn" class="btn btn-default disabled" data-toggle="modal" data-target="#resetPwdModal"><i class="fa fa-1x fa-unlock"></i> Reset Password</a>
   <hr>
   
   <div class="col-sm-3">
-      @include('admin::admin.tools.search_panel', [
+      @include('admin-laravel::admin.tools.search_panel', [
         'forms' => 
         [
           [
@@ -136,10 +136,10 @@
 
         var user_id = $(".userCheckbox:checked").data('user');
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/edit";
+        var url = "{{Config::get('admin-laravel::routes.admin.url')}}"+"/user/"+user_id+"/edit";
         $("#pencilBtn").attr("href", url);
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/user/"+user_id+"/roles";
+        var url = "{{Config::get('admin-laravel::routes.admin.url')}}"+"/user/"+user_id+"/roles";
         $("#groupBtn").attr("href", url);
 
         $("#resetConfirmBtn").on('click', function() {
@@ -149,7 +149,7 @@
           $(this).addClass('disabled');
           $(this).text('Loading...');
 
-          $.getJSON("{{Config::get('admin::routes.admin_user_reset_password.url')}}", {
+          $.getJSON("{{Config::get('admin-laravel::routes.admin_user_reset_password.url')}}", {
             'id': user_id
           }).done(function(data) {
             resetConfirmBtn.removeClass('disabled');

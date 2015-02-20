@@ -1,4 +1,4 @@
-<?php namespace Daison\Admin\App\Models;
+<?php namespace Daison\AdminLaravel\App\Models;
 
 class PasswordRules
 {

@@ -17,7 +17,7 @@ return [
   | -------------------------------------------------------------------------
    */
   'enable_top_nav'                => false,                                       // To enable the top navigation
-  'top_nav_template'              => 'admin::admin.layouts.top_nav_template',     // Target template
+  'top_nav_template'              => 'admin-laravel::admin.layouts.top_nav_template',     // Target template
   'user_lists_count'              => 30,                                          // The count lists
 
   'password_settings'             => [

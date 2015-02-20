@@ -1,4 +1,4 @@
-@extends('admin::admin.layouts.panel')
+@extends('admin-laravel::admin.layouts.panel')
 
 @section('title')
 @stop
@@ -10,7 +10,7 @@
 @stop
 
 @section('content')
-  <a href="{{Config::get('admin::routes.admin.url')}}/role/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
+  <a href="{{Config::get('admin-laravel::routes.admin.url')}}/role/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
   <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
   <hr>
   
@@ -46,7 +46,7 @@
 
         var user_id = $(".roleCheckbox:checked").data('role');
 
-        var url = "{{Config::get('admin::routes.admin.url')}}"+"/role/"+user_id+"/edit";
+        var url = "{{Config::get('admin-laravel::routes.admin.url')}}"+"/role/"+user_id+"/edit";
         $("#pencilBtn").attr("href", url);
 
       } else {

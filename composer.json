@@ -20,7 +20,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Daison\\Admin": "src/"
+            "Daison\\AdminLaravel": "src/"
         }
     },
     "minimum-stability": "dev"

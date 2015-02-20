@@ -1,7 +1,7 @@
-@extends('admin::admin.layouts.panel')
+@extends('admin-laravel::admin.layouts.panel')
 
 @section('title')
-  Homepage - {{Config::get('admin::general.site_name')}}
+  Homepage - {{Config::get('admin-laravel::general.site_name')}}
 @stop
 
 @section('content_title')

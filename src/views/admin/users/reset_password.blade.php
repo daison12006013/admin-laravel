@@ -1,4 +1,4 @@
-@extends('admin::admin.layouts.plain')
+@extends('admin-laravel::admin.layouts.plain')
 
 @section('title')
 @stop
@@ -35,7 +35,7 @@
 
   <div class="form-login">
     <div class="login-wrap">
-      We cant find your request. Please try again, <a href="{{Config::get('admin::routes.admin.url')}}">Click Here</a>.
+      We cant find your request. Please try again, <a href="{{Config::get('admin-laravel::routes.admin.url')}}">Click Here</a>.
     </div>
   </div>
 

@@ -10,7 +10,7 @@ return [
     'process'           => 'get',
     'url'               => '/admin/dashboard',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\DashboardController@index',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\DashboardController@index',
   ],
 
 
@@ -31,26 +31,26 @@ return [
   'admin' => [
     'process'           => 'get',
     'url'               => '/admin',
-    'uses'              => 'Daison\Admin\App\Controllers\SecurityController@index',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\SecurityController@index',
   ],
 
   'admin_security_login' => [
     'process'           => 'post',
     'url'               => '/admin/security/login',
-    'uses'              => 'Daison\Admin\App\Controllers\SecurityController@login',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\SecurityController@login',
   ],
 
   'admin_security_logout' => [
     'process'           => 'get',
     'url'               => '/admin/security/logout',
-    'uses'              => 'Daison\Admin\App\Controllers\SecurityController@logout',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\SecurityController@logout',
   ],
 
   'admin_user_profile' => [
     'process'           => 'get',
     'url'               => '/admin/user/profile',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@profile',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@profile',
   ],
 
   'admin_user_lists' => [
@@ -58,7 +58,7 @@ return [
     'url'               => '/admin/user/lists',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showLists',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showLists',
   ],
 
   'admin_user_reset_password' => [
@@ -66,13 +66,13 @@ return [
     'url'               => '/admin/user/reset-password',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@requestAResetPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@requestAResetPassword',
   ],
 
   'admin_user_forgot_password' => [
     'process'           => 'get',
     'url'               => '/admin/user/forgot-password',
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@requestAForgotPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@requestAForgotPassword',
   ],
   
   'admin_user_add' => [
@@ -80,7 +80,7 @@ return [
     'url'               => '/admin/user/add',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showAdd',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showAdd',
   ],
 
   'admin_user_edit' => [
@@ -88,7 +88,7 @@ return [
     'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showEdit',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showEdit',
   ],
 
   'admin_user_edit_save' => [
@@ -96,7 +96,7 @@ return [
     'url'               => '/admin/user/{id}/edit',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveEdit',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@saveEdit',
   ],
 
   'admin_user_add_save' => [
@@ -104,7 +104,7 @@ return [
     'url'               => '/admin/user/add',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveAdd',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@saveAdd',
   ],
 
   'admin_user_id_roles' => [
@@ -112,7 +112,7 @@ return [
     'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showRoles',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showRoles',
   ],
 
   'admin_user_id_roles_save' => [
@@ -120,7 +120,7 @@ return [
     'url'               => '/admin/user/{id}/roles',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveRoles',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@saveRoles',
   ],
 
   'admin_user_id_role_id_delete' => [
@@ -128,7 +128,7 @@ return [
     'url'               => '/admin/user/{id}/roles/{role_id}/delete',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@deleteRole',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@deleteRole',
   ],
 
   'admin_role_lists' => [
@@ -136,7 +136,7 @@ return [
     'url'               => '/admin/role/lists',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showRoles',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\RoleController@showRoles',
   ],
 
   'admin_roles_add' => [
@@ -144,7 +144,7 @@ return [
     'url'               => '/admin/role/add',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showAdd',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\RoleController@showAdd',
   ],
 
   'admin_roles_add_save' => [
@@ -152,7 +152,7 @@ return [
     'url'               => '/admin/role/add',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@saveAdd',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\RoleController@saveAdd',
   ],
 
   'admin_roles_edit' => [
@@ -160,7 +160,7 @@ return [
     'url'               => '/admin/role/{id}/edit',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@showEdit',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\RoleController@showEdit',
   ],
 
   'admin_roles_edit_save' => [
@@ -168,33 +168,33 @@ return [
     'url'               => '/admin/role/{id}/edit',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\Admin\App\Controllers\RoleController@saveEdit',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\RoleController@saveEdit',
   ],
 
   'admin_changepass' => [
     'process'           => 'get',
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showChangePassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showChangePassword',
   ],
 
   'admin_changepass_save' => [
     'process'           => 'post',
     'url'               => '/admin/settings/change-password',
     'is_auth'           => true,
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveChangedPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@saveChangedPassword',
   ],
 
   'admin_resetpassword' => [
     'process'           => 'get',
     'url'               => '/admin/reset-password/{token}',
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@showResetPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showResetPassword',
   ],
 
   'admin_resetpassword_save' => [
     'process'           => 'post',
     'url'               => '/admin/reset-password/{token}',
-    'uses'              => 'Daison\Admin\App\Controllers\UserController@saveResettedPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@saveResettedPassword',
   ],
 
 

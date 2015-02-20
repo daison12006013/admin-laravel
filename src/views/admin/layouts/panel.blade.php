@@ -42,17 +42,17 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="{{Config::get('admin::general.homepage_url')}}" class="logo"><b>{{Config::get('admin::general.site_name')}}</b></a>
+            <a href="{{Config::get('admin-laravel::general.homepage_url')}}" class="logo"><b>{{Config::get('admin-laravel::general.site_name')}}</b></a>
             <!--logo end-->
 
-            @if (Config::get('admin::general.enable_top_nav'))
-              @include(Config::get('admin::general.top_nav_template'))
+            @if (Config::get('admin-laravel::general.enable_top_nav'))
+              @include(Config::get('admin-laravel::general.top_nav_template'))
             @endif
 
 
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="{{Config::get('admin::routes.admin_security_logout.url')}}">Logout <i class="fa fa-sign-out fw"></i></a></li>
+                <li><a class="logout" href="{{Config::get('admin-laravel::routes.admin_security_logout.url')}}">Logout <i class="fa fa-sign-out fw"></i></a></li>
               </ul>
             </div>
         </header>
@@ -69,7 +69,7 @@
 
                   <h5 class="centered">{{$user['first_name']}} {{$user['last_name']}}</h5>
 
-                  @foreach (Config::get('admin::navigation') as $first_level => $val)
+                  @foreach (Config::get('admin-laravel::navigation') as $first_level => $val)
 
                       <?php 
                         if (isset($val['roles']) && count($val['roles']) > 0) {

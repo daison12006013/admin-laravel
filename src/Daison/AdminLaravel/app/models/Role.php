@@ -1,4 +1,4 @@
-<?php namespace Daison\Admin\App\Models;
+<?php namespace Daison\AdminLaravel\App\Models;
 
 class Role extends \Eloquent
 {
@@ -12,6 +12,6 @@ class Role extends \Eloquent
    */
   public function users()
   {
-    return $this->belongsToMany('Daison\Admin\App\Models\User', 'user_has_role');
+    return $this->belongsToMany('Daison\AdminLaravel\App\Models\User', 'user_has_role');
   }
 }

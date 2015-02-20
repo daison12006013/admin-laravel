@@ -33,7 +33,7 @@
         </td>
       </tr>
       <tr><?php
-          $url = parse_text(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
+          $url = parse_text(URL::to(Config::get('admin-laravel::routes.admin_resetpassword.url')), ['token' => $password_token]);
         ?><td>
           <a href="{{$url}}">{{$url}}</a>
         </td>
@@ -45,7 +45,7 @@
         <td style="font-size:12px;font-style:italic;">
           <hr>
           This is an automated message, please do not reply.<br>
-          - {{Config::get('admin::general.site_name')}}
+          - {{Config::get('admin-laravel::general.site_name')}}
         </td>
       </tr>
     </table>

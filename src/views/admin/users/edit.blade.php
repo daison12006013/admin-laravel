@@ -1,4 +1,4 @@
-@extends('admin::admin.layouts.panel')
+@extends('admin-laravel::admin.layouts.panel')
 
 @section('title')
 @stop
@@ -10,7 +10,7 @@
 @stop
 
 @section('content')
-<a href="{{Config::get('admin::routes.admin_user_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
+<a href="{{Config::get('admin-laravel::routes.admin_user_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
 {{Form::open([])}}
   @if (isset($success_message))
   <div class="alert alert-success">

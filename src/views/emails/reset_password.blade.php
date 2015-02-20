@@ -21,7 +21,7 @@
         </td>
       </tr>
       <tr style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;page-break-inside: avoid;"><?php
-          $url = parse_text(URL::to(Config::get('admin::routes.admin_resetpassword.url')), ['token' => $password_token]);
+          $url = parse_text(URL::to(Config::get('admin-laravel::routes.admin_resetpassword.url')), ['token' => $password_token]);
         ?><td style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 15px 0 !important;border: 0 !important;background-color: #fff!important;">
           <a href="{{$url}}" style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;background: 0 0;color: #428bca;text-decoration: underline;">{{$url}}</a>
         </td>
@@ -33,7 +33,7 @@
         <td style="font-size: 12px;font-style: italic;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 15px 0 !important;border: 0 !important;background-color: #fff!important;">
           <hr style="-webkit-box-sizing: border-box;-moz-box-sizing: content-box;box-sizing: content-box;height: 0;margin-top: 20px;margin-bottom: 20px;border: 0;border-top: 1px solid #eee;">
           This is an automated message, please do not reply.<br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
-          - {{Config::get('admin::general.site_name')}}
+          - {{Config::get('admin-laravel::general.site_name')}}
         </td>
       </tr>
     </table>

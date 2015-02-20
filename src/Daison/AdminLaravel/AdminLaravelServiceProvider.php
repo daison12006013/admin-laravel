@@ -1,8 +1,8 @@
-<?php namespace Daison\Admin;
+<?php namespace Daison\AdminLaravel;
 
 use Illuminate\Support\ServiceProvider;
 
-class AdminServiceProvider extends ServiceProvider {
+class AdminLaravelServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -26,11 +26,11 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('daison/admin');
+		$this->package('daison/admin-laravel');
 		require 'app/Helpers.php';
 
-		$admin = new Admin;
-		$admin->start(\Config::get('admin::routes'));
+		$admin = new AdminLaravel;
+		$admin->start(\Config::get('admin-laravel::routes'));
 	}
 
 	/**

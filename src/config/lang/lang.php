@@ -1,3 +1,3 @@
 <?php
 
-return require \Config::get('admin::general.language') . '.php';
+return require \Config::get('admin-laravel::general.language') . '.php';

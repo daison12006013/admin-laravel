@@ -1,6 +1,6 @@
-<?php namespace Daison\Admin\App\Controllers;
+<?php namespace Daison\AdminLaravel\App\Controllers;
 
-use Daison\Admin\App\Models\User;
+use Daison\AdminLaravel\App\Models\User;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
@@ -19,7 +19,7 @@ class SecurityController extends BaseController
    */
   public function index()
   {
-    return View::make('admin::admin.layouts.login');
+    return View::make('admin-laravel::admin.layouts.login');
   }
 
   /**
@@ -37,7 +37,7 @@ class SecurityController extends BaseController
       return Redirect::to('/admin/dashboard');
     }
 
-    return Redirect::to('/admin')->withError(Config::get('admin::lang/lang.user_not_found_message'));
+    return Redirect::to('/admin')->withError(Config::get('admin-laravel::lang/lang.user_not_found_message'));
   }
 
   /**

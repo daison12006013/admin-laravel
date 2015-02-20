@@ -1,4 +1,4 @@
-@extends('admin::admin.layouts.panel')
+@extends('admin-laravel::admin.layouts.panel')
 
 @section('title')
 @stop
@@ -13,7 +13,7 @@
 <?php 
   // $current_url = URL::to(Route::getCurrentRoute()->getPath());
 ?>
-<a href="{{Config::get('admin::routes.admin_user_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
+<a href="{{Config::get('admin-laravel::routes.admin_user_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
 <div class="row">
   @if (Session::has('success'))
   <div class="alert alert-success">
@@ -40,7 +40,7 @@
           </tr>
         @empty
           <tr>
-            <td><i>{{Config::get('admin::lang/lang.role_not_found')}}</i></td>
+            <td><i>{{Config::get('admin-laravel::lang/lang.role_not_found')}}</i></td>
           </tr>
         @endforelse
       </table>
