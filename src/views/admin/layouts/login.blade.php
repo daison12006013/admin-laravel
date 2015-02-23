@@ -34,7 +34,7 @@
 
     <div id="login-page">
       <div class="container">
-      
+
           {{Form::open(['url' => Config::get('admin-laravel::routes.admin_security_login.url'), 'method' => 'POST', 'class' => 'form-login'])}}
             <h2 class="form-login-heading">sign in now</h2>
             <div class="login-wrap">
