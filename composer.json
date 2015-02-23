@@ -1,0 +1,27 @@
+{
+    "name": "daison/admin-laravel",
+    "description": "Ready made admin for your laravel website.",
+    "keywords": ["laravel", "php", "admin", "administrator", "twitter bootstrap"],
+    "homepage": "https://github.com/daison12006013/admin-laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daison Carino",
+            "email": "daison12006013@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "nesbot/Carbon":"*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Daison\\AdminLaravel": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
