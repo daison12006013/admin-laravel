@@ -10,5 +10,5 @@
 
 @section('content')
   This is your homepage.<br/>
-  Modify your dashboard index, by changing the <b>/app/config/packages/daison/admin/config/general.php</b>
+  Modify your dashboard index, by changing the <b>/app/config/packages/daison/admin-laravel/config/general.php</b>
 @stop

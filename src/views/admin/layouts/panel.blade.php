@@ -13,13 +13,13 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/packages/daison/admin/css/bootstrap.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="/packages/daison/admin/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/packages/daison/admin-laravel/font-awesome/css/font-awesome.css" rel="stylesheet" />
         
     <!-- Custom styles for this template -->
-    <link href="/packages/daison/admin/css/style.css" rel="stylesheet">
-    <link href="/packages/daison/admin/css/style-responsive.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/style.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/style-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -170,17 +170,17 @@
   </section>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="/packages/daison/admin/js/jquery.js"></script>
-    <script src="/packages/daison/admin/js/bootstrap.min.js"></script>
-    <script src="/packages/daison/admin/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="/packages/daison/admin/js/jquery.ui.touch-punch.min.js"></script>
-    <script class="include" type="text/javascript" src="/packages/daison/admin/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="/packages/daison/admin/js/jquery.scrollTo.min.js"></script>
-    <script src="/packages/daison/admin/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery.js"></script>
+    <script src="/packages/daison/admin-laravel/js/bootstrap.min.js"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery.ui.touch-punch.min.js"></script>
+    <script class="include" type="text/javascript" src="/packages/daison/admin-laravel/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery.scrollTo.min.js"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery.nicescroll.js" type="text/javascript"></script>
 
 
     <!--common script for all pages-->
-    <script src="/packages/daison/admin/js/common-scripts.js"></script>
+    <script src="/packages/daison/admin-laravel/js/common-scripts.js"></script>
 
     <!--script for this page-->
     

@@ -10,13 +10,13 @@
     <title>@yield('title')</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/packages/daison/admin/css/bootstrap.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="/packages/daison/admin/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/packages/daison/admin-laravel/font-awesome/css/font-awesome.css" rel="stylesheet" />
         
     <!-- Custom styles for this template -->
-    <link href="/packages/daison/admin/css/style.css" rel="stylesheet">
-    <link href="/packages/daison/admin/css/style-responsive.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/style.css" rel="stylesheet">
+    <link href="/packages/daison/admin-laravel/css/style-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -39,14 +39,14 @@
     </div>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="/packages/daison/admin/js/jquery.js"></script>
-    <script src="/packages/daison/admin/js/bootstrap.min.js"></script>
+    <script src="/packages/daison/admin-laravel/js/jquery.js"></script>
+    <script src="/packages/daison/admin-laravel/js/bootstrap.min.js"></script>
 
     <!--BACKSTRETCH-->
     <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
-    <script type="text/javascript" src="/packages/daison/admin/js/jquery.backstretch.min.js"></script>
+    <script type="text/javascript" src="/packages/daison/admin-laravel/js/jquery.backstretch.min.js"></script>
     <script>
-        $.backstretch("/packages/daison/admin/img/login-bg.jpg", {speed: 500});
+        $.backstretch("/packages/daison/admin-laravel/img/login-bg.jpg", {speed: 500});
     </script>
 
 
