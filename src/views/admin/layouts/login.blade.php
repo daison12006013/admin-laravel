@@ -35,7 +35,7 @@
     <div id="login-page">
       <div class="container">
 
-          {{Form::open(['url' => Config::get('admin-laravel::routes.admin_security_login.url'), 'method' => 'POST', 'class' => 'form-login'])}}
+          {{Form::open(['url' => URL::to(Config::get('admin-laravel::routes.admin_security_login.url')), 'method' => 'POST', 'class' => 'form-login'])}}
             <h2 class="form-login-heading">sign in now</h2>
             <div class="login-wrap">
                 @if (Session::has('success'))
@@ -106,7 +106,7 @@
           $(this).text('Loading...');
 
           var email = $('input[name="email_for_fp"]').val();
-          $.getJSON("{{Config::get('admin-laravel::routes.admin_user_forgot_password.url')}}", {
+          $.getJSON("{{URL::to(Config::get('admin-laravel::routes.admin_user_forgot_password.url'))}}", {
             'email': email
           }).done(function(data) {
             resetConfirmBtn.removeClass('disabled');

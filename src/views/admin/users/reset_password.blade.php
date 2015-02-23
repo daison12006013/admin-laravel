@@ -35,7 +35,7 @@
 
   <div class="form-login">
     <div class="login-wrap">
-      We cant find your request. Please try again, <a href="{{Config::get('admin-laravel::routes.admin.url')}}">Click Here</a>.
+      We cant find your request. Please try again, <a href="{{URL::to(Config::get('admin-laravel::routes.admin.url'))}}">Click Here</a>.
     </div>
   </div>
 

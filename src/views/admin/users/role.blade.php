@@ -13,7 +13,7 @@
 <?php 
   // $current_url = URL::to(Route::getCurrentRoute()->getPath());
 ?>
-<a href="{{Config::get('admin-laravel::routes.admin_user_lists.url')}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
+<a href="{{URL::to(Config::get('admin-laravel::routes.admin_user_lists.url'))}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
 <div class="row">
   @if (Session::has('success'))
   <div class="alert alert-success">

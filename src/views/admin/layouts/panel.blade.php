@@ -52,7 +52,7 @@
 
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="{{Config::get('admin-laravel::routes.admin_security_logout.url')}}">Logout <i class="fa fa-sign-out fw"></i></a></li>
+                <li><a class="logout" href="{{URL::to(Config::get('admin-laravel::routes.admin_security_logout.url'))}}">Logout <i class="fa fa-sign-out fw"></i></a></li>
               </ul>
             </div>
         </header>
