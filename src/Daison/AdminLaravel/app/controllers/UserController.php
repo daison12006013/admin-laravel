@@ -308,7 +308,10 @@ class UserController extends BaseController
     try {
       $user = new User;
       $user->create($post);
-      $user->update(['password' => Hash::make($post['password'])]);
+
+      $_user = User::findOrFail($user->id);
+      $_user->password = Hash::make($post['password']);
+      $_user->save();
     } catch(\Exception $e)
     {
       $msg = Config::get('admin-laravel::lang/lang.user_add_err_msg');
