@@ -29,10 +29,22 @@ class UserController extends BaseController
   private $user;
   private $user_password_history;
 
+
   public function __construct(User $user, UserPasswordHistory $user_password_history)
   {
     $this->user = $user;
     $this->user_password_history = $user_password_history;
+  }
+
+
+  private function _findUser($id)
+  {
+    $user = User::find($id);
+    if (! $user) {
+      throw new \Exception('User not found');
+    }
+
+    return $user;
   }
 
 
@@ -67,6 +79,77 @@ class UserController extends BaseController
   }
 
 
+  public function deleteRole($user_id, $role_id)
+  {
+    $user_has_role = UserHasRole::where('user_id', '=', $user_id)->where('role_id', '=', $role_id);
+
+    $user_has_role->delete();
+
+    return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_deleted'));
+  }
+
+
+  public function requestAForgotPassword()
+  {
+    $email = Input::get('email');
+
+
+    # try to check if email exists
+    try {
+      $this->user = $this->user->where('email', '=', $email)->firstOrFail();
+    } catch (ModelNotFoundException $e) {
+      return Response::JSON([
+        'success' => false,
+        'message' => HTML::decode(Config::get('admin-laravel::lang/lang.password_nouser_forgot_req')),
+      ]);
+    }
+
+
+    # generate the forgot_password_token
+    $forgot_token = null;
+    try {
+      while(true) {
+        $forgot_token = str_random(50);
+        \User::where('forgot_token', '=', $forgot_token)->firstOrFail();
+      }
+    } catch (ModelNotFoundException $e) {}
+
+
+    # get the expire date
+    $expires_at = Carbon::now()->addHours(Config::get('admin-laravel::general.password_settings.reset_session_hours'));
+
+
+    # update the database about the forgot token
+    $this->user->forgot_token = $forgot_token;
+    $this->user->forgot_token_expiration = $expires_at;
+    $this->user->save();
+
+
+    # send the reset-password
+    $user = $this->user;
+    Mail::send(
+      'admin-laravel::emails.reset_password', 
+      array(
+        'user' => $this->user,
+        'password_token' => $forgot_token,
+      ),
+      function($message) use ($user) {
+        $message->from(Config::get('admin-laravel::general.email.from'), Config::get('admin-laravel::general.email.name'));
+        $message
+          ->to($user->email, $user->first_name . ' ' . $user->last_name)
+          ->subject('Forgot Password Request');
+      }
+    );
+
+
+    # return the success message
+    return Response::JSON([
+      'success' => true,
+      'message' => HTML::decode(Config::get('admin-laravel::lang/lang.password_forgot_req_success')),
+    ]);
+  }
+
+
   public function showResetPassword($token)
   {
     $user_found = true;
@@ -82,6 +165,56 @@ class UserController extends BaseController
 
     return View::make('admin-laravel::admin.users.reset_password')
       ->withUserFound($user_found);
+  }
+
+
+  public function showRoles($id)
+  {
+    $user = $this->_findUser($id);
+
+    $user_roles = $user->roles;
+    $available_roles = Role::orderBy('name', 'ASC')->get();
+
+    return View::make('admin-laravel::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
+  }
+
+
+  public function showChangePassword()
+  {
+    return View::make('admin-laravel::admin.settings.change_password');
+  }
+
+
+  public function showLists()
+  {
+    $searcher = new Searcher('User');
+    $searcher->rules([
+      'id' => '=',
+      'email' => 'like',
+      'first_name' => 'like',
+      'last_name' => 'like',
+    ])->filter();
+    $searcher->sortAndOrder(Input::all());
+    $users = $searcher->getTable()->paginate(Config::get('admin-laravel::general.user_lists_count'));
+
+    return View::make('admin-laravel::admin.users.list')
+      ->withUsers($users)
+      ->withSearcher($searcher)
+      ->withInput(Input::all());
+  }
+
+
+  public function showEdit($id)
+  {
+    $user = $this->_findUser($id);
+
+    return View::make('admin-laravel::admin.users.edit')->withUser($user);
+  }
+
+
+  public function showAdd()
+  {
+    return View::make('admin-laravel::admin.users.add');
   }
 
 
@@ -147,6 +280,94 @@ class UserController extends BaseController
     }
   }
 
+  public function saveRoles($id)
+  {
+    $user = $this->_findUser($id);
+
+    $role = new UserHasRole;
+    $role->user_id = $id;
+    $role->role_id = Input::get('role_id');
+    $role->save();
+
+    return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_saved'));
+  }
+
+
+  public function saveChangedPassword()
+  {
+    $old_password = Input::get('old_password');
+    $new_password = Input::get('new_password');
+
+    try {
+      if ($new_password != Input::get('confirm_new_password')) {
+        throw new \Exception(Config::get('admin-laravel::lang/lang.password_new_pass_and_re'));
+      }
+
+      if (! Hash::check($old_password, Auth::user()->password)) {
+        throw new \Exception(Config::get('admin-laravel::lang/lang.password_db_not_match'));
+      }
+
+      $this->_checkPasswordRules($new_password);
+
+      $user = User::find(Auth::user()->id);
+      $user->password = Hash::make($new_password);
+      $user->save();
+
+      return Redirect
+        ::to(Config::get('admin-laravel::routes.admin_changepass.url'))
+        ->withSuccess(Config::get('admin-laravel::lang/lang.password_success'));
+
+    } catch (\Exception $e) {
+      return Redirect::to(Config::get('admin-laravel::routes.admin_changepass.url'))->withError($e->getMessage())->withInput();
+    }
+
+    return;
+  }
+
+
+  public function saveEdit($id)
+  {
+    $post = Input::all();
+
+    $user = $this->_findUser($id);
+
+    $user->updateInformation($post);
+    $user->save();
+
+    return View::make('admin-laravel::admin.users.edit')->withUser($user)->withSuccessMessage(Config::get('admin-laravel::lang/lang.user_changed_info_msg'));
+  }
+
+  public function saveAdd()
+  {
+    $post = Input::all();
+
+    $redirect_to = Redirect::to(Config::get('admin-laravel::routes.admin_user_add.url'));
+
+    try {
+      $this->_checkPasswordRules($post['password']);
+    } catch(\Exception $e)
+    {
+      return $redirect_to->withError($e->getMessage())->withInput();
+    }
+
+
+    try {
+      $user = new User;
+      $user->create($post);
+
+      $_user = User::findOrFail($user->id);
+      $_user->password = Hash::make($post['password']);
+      $_user->save();
+    } catch(\Exception $e)
+    {
+      $msg = Config::get('admin-laravel::lang/lang.user_add_err_msg');
+      return $redirect_to->withInput()->withError($msg);
+    }
+
+
+    $msg = Config::get('admin-laravel::lang/lang.user_add_info_msg');
+    return $redirect_to->withSuccess($msg);
+  }
 
   public function requestAResetPassword()
   {
@@ -192,227 +413,5 @@ class UserController extends BaseController
     ]);
   }
 
-
-  public function requestAForgotPassword()
-  {
-    $email = Input::get('email');
-
-
-    # try to check if email exists
-    try {
-      $this->user = $this->user->where('email', '=', $email)->firstOrFail();
-    } catch (ModelNotFoundException $e) {
-      return Response::JSON([
-        'success' => false,
-        'message' => HTML::decode(Config::get('admin-laravel::lang/lang.password_nouser_forgot_req')),
-      ]);
-    }
-
-
-    # generate the forgot_password_token
-    $forgot_token = null;
-    try {
-      while(true) {
-        $forgot_token = str_random(50);
-        \User::where('forgot_token', '=', $forgot_token)->firstOrFail();
-      }
-    } catch (ModelNotFoundException $e) {}
-
-
-    # get the expire date
-    $expires_at = Carbon::now()->addHours(Config::get('admin-laravel::general.password_settings.reset_session_hours'));
-
-
-    # update the database about the forgot token
-    $this->user->forgot_token = $forgot_token;
-    $this->user->forgot_token_expiration = $expires_at;
-    $this->user->save();
-
-
-    # send the reset-password
-    $user = $this->user;
-    Mail::send(
-      'admin-laravel::emails.reset_password', 
-      array(
-        'user' => $this->user,
-        'password_token' => $forgot_token,
-      ),
-      function($message) use ($user) {
-        $message->from(Config::get('admin-laravel::general.email.from'), Config::get('admin-laravel::general.email.name'));
-        $message
-          ->to($user->email, $user->first_name . ' ' . $user->last_name)
-          ->subject('Forgot Password Request');
-      }
-    );
-
-
-    # return the success message
-    return Response::JSON([
-      'success' => true,
-      'message' => HTML::decode(Config::get('admin-laravel::lang/lang.password_forgot_req_success')),
-    ]);
-  }
-
-
-  public function showChangePassword()
-  {
-    return View::make('admin-laravel::admin.settings.change_password');
-  }
-
-
-  public function saveChangedPassword()
-  {
-    $old_password = Input::get('old_password');
-    $new_password = Input::get('new_password');
-
-    try {
-      if ($new_password != Input::get('confirm_new_password')) {
-        throw new \Exception(Config::get('admin-laravel::lang/lang.password_new_pass_and_re'));
-      }
-
-      if (! Hash::check($old_password, Auth::user()->password)) {
-        throw new \Exception(Config::get('admin-laravel::lang/lang.password_db_not_match'));
-      }
-
-      $this->_checkPasswordRules($new_password);
-
-      $user = User::find(Auth::user()->id);
-      $user->password = Hash::make($new_password);
-      $user->save();
-
-      return Redirect
-        ::to(Config::get('admin-laravel::routes.admin_changepass.url'))
-        ->withSuccess(Config::get('admin-laravel::lang/lang.password_success'));
-
-    } catch (\Exception $e) {
-      return Redirect::to(Config::get('admin-laravel::routes.admin_changepass.url'))->withError($e->getMessage())->withInput();
-    }
-
-    return;
-  }
-
-
-  public function showLists()
-  {
-    $searcher = new Searcher('User');
-    $searcher->rules([
-      'id' => '=',
-      'email' => 'like',
-      'first_name' => 'like',
-      'last_name' => 'like',
-    ])->filter();
-    $searcher->sortAndOrder(Input::all());
-    $users = $searcher->getTable()->paginate(Config::get('admin-laravel::general.user_lists_count'));
-
-    return View::make('admin-laravel::admin.users.list')
-      ->withUsers($users)
-      ->withSearcher($searcher)
-      ->withInput(Input::all());
-  }
-
-
-  public function showEdit($id)
-  {
-    $user = $this->_findUser($id);
-
-    return View::make('admin-laravel::admin.users.edit')->withUser($user);
-  }
-
-
-  public function saveEdit($id)
-  {
-    $post = Input::all();
-
-    $user = $this->_findUser($id);
-
-    $user->updateInformation($post);
-    $user->save();
-
-    return View::make('admin-laravel::admin.users.edit')->withUser($user)->withSuccessMessage(Config::get('admin-laravel::lang/lang.user_changed_info_msg'));
-  }
-
-
-  public function showAdd()
-  {
-    return View::make('admin-laravel::admin.users.add');
-  }
-
-
-  public function saveAdd()
-  {
-    $post = Input::all();
-
-    $redirect_to = Redirect::to(Config::get('admin-laravel::routes.admin_user_add.url'));
-
-    try {
-      $this->_checkPasswordRules($post['password']);
-    } catch(\Exception $e)
-    {
-      return $redirect_to->withError($e->getMessage())->withInput();
-    }
-
-
-    try {
-      $user = new User;
-      $user->create($post);
-
-      $_user = User::findOrFail($user->id);
-      $_user->password = Hash::make($post['password']);
-      $_user->save();
-    } catch(\Exception $e)
-    {
-      $msg = Config::get('admin-laravel::lang/lang.user_add_err_msg');
-      return $redirect_to->withInput()->withError($msg);
-    }
-
-
-    $msg = Config::get('admin-laravel::lang/lang.user_add_info_msg');
-    return $redirect_to->withSuccess($msg);
-  }
-
-
-  public function showRoles($id)
-  {
-    $user = $this->_findUser($id);
-
-    $user_roles = $user->roles;
-    $available_roles = Role::orderBy('name', 'ASC')->get();
-
-    return View::make('admin-laravel::admin.users.role')->withAvailableRoles($available_roles)->withUserRoles($user_roles);
-  }
-
-
-  public function saveRoles($id)
-  {
-    $user = $this->_findUser($id);
-
-    $role = new UserHasRole;
-    $role->user_id = $id;
-    $role->role_id = Input::get('role_id');
-    $role->save();
-
-    return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_saved'));
-  }
-
-
-  public function deleteRole($user_id, $role_id)
-  {
-    $user_has_role = UserHasRole::where('user_id', '=', $user_id)->where('role_id', '=', $role_id);
-
-    $user_has_role->delete();
-
-    return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_deleted'));
-  }
-
-
-  private function _findUser($id)
-  {
-    $user = User::find($id);
-    if (! $user) {
-      throw new \Exception('User not found');
-    }
-
-    return $user;
-  }
 
 }
