@@ -25,8 +25,6 @@ return [
     'has_number'                  => false,                                       // Password should have atleast 1 numeric
     'has_special_char'            => false,                                       // Password should have atleast 1 special character
     'has_upper_and_lower'         => false,                                       // Password should have atleast Upper and Lower case character
-    // 'autolock'                    => true,
-    // 'autolock_attempt'            => 5,
     'reset_prefix'                => '!Pwd',                                      // Resetting of password, starts with, by default "!Pwd"
     'reset_session_hours'         => 24,                                          // Session to reset the password within by default 24 hours
   ],
