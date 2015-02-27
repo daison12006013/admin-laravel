@@ -6,6 +6,7 @@ use Daison\AdminLaravel\App\Models\UserPasswordHistory;
 use Daison\AdminLaravel\App\Models\Role;
 use Daison\AdminLaravel\App\Models\UserHasRole;
 use Daison\AdminLaravel\App\Models\Searcher;
+use Daison\AdminLaravel\App\Models\Log as LogTable;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -28,12 +29,14 @@ class UserController extends BaseController
 
   private $user;
   private $user_password_history;
+  private $log;
 
 
-  public function __construct(User $user, UserPasswordHistory $user_password_history)
+  public function __construct(User $user, UserPasswordHistory $user_password_history, LogTable $log)
   {
     $this->user = $user;
     $this->user_password_history = $user_password_history;
+    $this->log = $log;
   }
 
 
@@ -86,6 +89,28 @@ class UserController extends BaseController
     $user_has_role->delete();
 
     return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_deleted'));
+  }
+
+
+  public function requestAResetLoginAttempt($user_id)
+  {
+    try {
+      $this->user = $this->user->findOrFail($user_id);
+    } catch (ModelNotFoundException $e) {
+      return Response::JSON([
+        'success' => false,
+        'message' => 'User ID not found!',
+      ]);
+    }
+
+
+    # reset the login attempt
+    $this->user->login_attempts = null;
+    $this->user->update();
+
+
+    return Redirect::to(URL::previous())
+      ->withSuccess('You have successfully resetted the login attempt of this user.');
   }
 
 

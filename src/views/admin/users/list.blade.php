@@ -19,7 +19,7 @@
   <a href="{{URL::to(Config::get('admin-laravel::routes.admin.url'))}}/user/add" class="btn btn-success"><i class="fa fa-1x fa-plus-circle"></i> Add New</a>
   <a href="#" id="pencilBtn" class="btn btn-primary disabled"><i class="fa fa-1x fa-pencil-square-o"></i> Edit</a>
   <a href="#" id="groupBtn" class="btn btn-danger disabled"><i class="fa fa-1x fa-group"></i> Manage Roles</a>
-  {{-- <a href="#" id="resetPwdBtn" class="btn btn-default disabled" data-toggle="modal" data-target="#resetPwdModal"><i class="fa fa-1x fa-unlock"></i> Reset Password</a> --}}
+  <a href="#" id="resetLoginAttempt" class="btn btn-default disabled"><i class="fa fa-1x fa-unlock"></i> Reset Login Attempt</a>
   <hr>
   
   <div class="col-sm-3">
@@ -67,6 +67,12 @@
     $current_url = URL::current();
   ?>
   <div class="col-sm-9">
+    @if (Session::has('success'))
+    <div class="alert alert-success">
+      {{Session::get('success')}}
+    </div>
+    @endif
+
     <div class="table-responsive">
       <table class="table table-bordered table-condensed">
         <tr>
@@ -75,6 +81,7 @@
           <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'email', 'order' => $order_reverse])}}">Email</th>
           <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'last_name', 'order' => $order_reverse])}}">Last Name</th>
           <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'first_name', 'order' => $order_reverse])}}">First Name</th>
+          <th><a href="{{$current_url . '?' . $searcher->parseUrl(['sort' => 'login_attempts', 'order' => $order_reverse])}}">Login Attempts</th>
         </tr>
         @foreach ($users as $user)
           <tr>
@@ -85,6 +92,7 @@
             <td>{{$user['email']}}</td>
             <td>{{$user['last_name']}}</td>
             <td>{{$user['first_name']}}</td>
+            <td>{{$user['login_attempts']}}</td>
           </tr>    
         @endforeach
       </table>
@@ -93,31 +101,6 @@
       {{$users->appends(Input::all())->links()}}
     </div>
   </div>
-
-<div class="">
-  <!-- Modal -->
-  <div class="modal fade" id="resetPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Please confirm!</h4>
-        </div>
-        <div class="modal-body">
-          Hi there, We need your confirmation to reset the password.
-          <div style="margin-top:20px;display:none;" class="resetPwdResponseBox alert alert-info"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" id="resetConfirmBtn" data-loading-text="Loading..." class="btn btn-primary">Reset</button>
-          <a class="" href="#" id="selected" data-role="button"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
 
 @stop
 
@@ -132,7 +115,7 @@
       if (userBoxCount == 1) {
         $("#pencilBtn").removeClass("disabled");
         $("#groupBtn").removeClass("disabled");
-        $("#resetPwdBtn").removeClass("disabled");
+        $("#resetLoginAttempt").removeClass("disabled");
 
         var user_id = $(".userCheckbox:checked").data('user');
 
@@ -142,31 +125,13 @@
         var url = "{{URL::to(Config::get('admin-laravel::routes.admin.url'))}}"+"/user/"+user_id+"/roles";
         $("#groupBtn").attr("href", url);
 
-        $("#resetConfirmBtn").on('click', function() {
-          var resetConfirmBtn = $(this);
-          var oldTitle = $(this).text();
-
-          $(this).addClass('disabled');
-          $(this).text('Loading...');
-
-          $.getJSON("{{URL::to(Config::get('admin-laravel::routes.admin_user_reset_password.url'))}}", {
-            'id': user_id
-          }).done(function(data) {
-            resetConfirmBtn.removeClass('disabled');
-            resetConfirmBtn.text(oldTitle);
-
-            $('#resetPwdModal .resetPwdResponseBox').slideDown();
-            $('#resetPwdModal .resetPwdResponseBox').html(data.message);
-
-          }).fail(function() {
-            console.log("Error getting the message from the server");
-          });
-        });
+        var url = "{{URL::to(Config::get('admin-laravel::routes.admin.url'))}}"+"/user/"+user_id+"/reset-login-attempts";
+        $("#resetLoginAttempt").attr("href", url);
 
       } else {
         $("#pencilBtn").addClass("disabled");
         $("#groupBtn").addClass("disabled");
-        $("#resetPwdBtn").addClass("disabled");
+        $("#resetLoginAttempt").addClass("disabled");
       }
     });
   });
