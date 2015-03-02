@@ -1,13 +1,16 @@
 <?php namespace Daison\AdminLaravel\App\Controllers;
 
-use Carbon\Carbon;
 use Daison\AdminLaravel\App\Models\User;
+
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
+
+use Carbon\Carbon;
 
 class SecurityController extends BaseController
 {
@@ -23,7 +26,12 @@ class SecurityController extends BaseController
   private function _authAttempt($email, $password)
   {
     if (Auth::attempt(array('email' => $email, 'password' => $password))) {
-      $this->user = Auth::user();
+      try {
+        $this->user = User::findOrFail(Auth::user()->id);
+      } catch(ModelNotFoundException $e) {
+        return false;
+      }
+
       $this->user->last_login = Carbon::now();
       $this->user->refreshLoginAttempts();
       $this->user->save();
@@ -71,7 +79,13 @@ class SecurityController extends BaseController
       # check if the user is prevented to login
       if ($this->_isPreventedToLogin()) {
         return Redirect::to(URL::previous())
-          ->withError('You need to wait atleast ' . $this->ban_time_for_humans . ' you can login.');
+          ->withError(
+              parse_text(
+                Config::get('admin-laravel::lang/lang.login_throttling'), [
+                  'time' => $this->ban_time_for_humans
+                ]
+              )
+          );
       }
 
 
@@ -79,7 +93,7 @@ class SecurityController extends BaseController
       if ($this->_authAttempt($email, $password)) {
         Session::put('roles', $this->user->roles);
 
-        return Redirect::to('/dashboard');
+        return Redirect::to(Config::get('admin-laravel::routes.admin_home.url'));
       }
 
 
@@ -91,7 +105,7 @@ class SecurityController extends BaseController
     } catch (ModelNotFoundException $e) {}
 
     return Redirect::to(URL::previous())
-      ->withError('Please check your email or password.');
+      ->withError(Config::get('admin-laravel::lang/lang.user_not_found'));
   }
 
 

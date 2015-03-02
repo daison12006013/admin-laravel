@@ -110,7 +110,7 @@ class UserController extends BaseController
 
 
     return Redirect::to(URL::previous())
-      ->withSuccess('You have successfully resetted the login attempt of this user.');
+      ->withSuccess(Config::get('admin-laravel::lang/lang.login_attemp_reset'));
   }
 
 
@@ -135,7 +135,7 @@ class UserController extends BaseController
     try {
       while(true) {
         $forgot_token = str_random(50);
-        \User::where('forgot_token', '=', $forgot_token)->firstOrFail();
+        User::where('forgot_token', '=', $forgot_token)->firstOrFail();
       }
     } catch (ModelNotFoundException $e) {}
 
@@ -180,7 +180,7 @@ class UserController extends BaseController
     $user_found = true;
 
     try {
-      $this->user = \User::where('forgot_token', '=', $token)->firstOrfail();
+      $this->user = User::where('forgot_token', '=', $token)->firstOrfail();
       if ($this->user->isForgotTokenExpired()) {
         $user_found = false;
       }
@@ -250,7 +250,7 @@ class UserController extends BaseController
 
     try {
       try {
-        $this->user = \User::where('forgot_token', '=', $token)->firstOrfail();
+        $this->user = User::where('forgot_token', '=', $token)->firstOrfail();
 
         if ($this->user->isForgotTokenExpired()) {
           return Redirect::to(URL::previous());
@@ -281,10 +281,10 @@ class UserController extends BaseController
 
 
       # create the new password in the history
-      $this->user_password_history = new \UserPasswordHistory;
+      $this->user_password_history = new UserPasswordHistory;
       $this->user_password_history->create([
         'user_id' => $this->user->id,
-        'password_hash' => \UserPasswordHistory::hashPassword($new_password),
+        'password_hash' => UserPasswordHistory::hashPassword($new_password),
       ]);
 
 

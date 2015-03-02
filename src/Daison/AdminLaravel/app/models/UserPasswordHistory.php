@@ -1,5 +1,7 @@
 <?php namespace Daison\AdminLaravel\App\Models;
 
+use Illuminate\Support\Facades\Config;
+
 class UserPasswordHistory extends \Eloquent
 {
   const PREVIOUS_PASSWORD_TO_PREVENT_COUNT = 5;
