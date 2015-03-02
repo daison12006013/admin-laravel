@@ -1,6 +1,7 @@
 <?php namespace Daison\AdminLaravel\App\Controllers;
 
 use Daison\AdminLaravel\App\Models\User;
+use Daison\AdminLaravel\App\Models\Log as LogTable;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
@@ -16,10 +17,12 @@ class SecurityController extends BaseController
 {
   private $user;
   private $ban_time_for_humans;
+  private $log;
 
-  public function __construct(User $user)
+  public function __construct(User $user, LogTable $log)
   {
     $this->user = $user;
+    $this->log = $log;
   }
 
 
@@ -92,6 +95,11 @@ class SecurityController extends BaseController
       # try to attempt if the email and password exists
       if ($this->_authAttempt($email, $password)) {
         Session::put('roles', $this->user->roles);
+        $this->log->standardInfo(
+          LogTable::TYPE_INFO, 
+          $this->user->id, 
+          $this->user->first_name . ' logged in.'
+        );
 
         return Redirect::to(Config::get('admin-laravel::routes.admin_home.url'));
       }
@@ -111,7 +119,17 @@ class SecurityController extends BaseController
 
   public function logout()
   {
-    Auth::logout();
+    if (Auth::check()) {
+      # log the user actions
+      $this->log->standardInfo(
+        LogTable::TYPE_INFO, 
+        Auth::user()->id, 
+        Auth::user()->first_name . ' logged out.'
+      );
+
+      # destroy the login session
+      Auth::logout();
+    }
 
     return Redirect::to(Config::get('admin-laravel::routes.admin.url'));
   }
