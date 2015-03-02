@@ -63,7 +63,7 @@ return [
 
   'admin_user_reset_login_attempt' => [
     'process'           => 'get',
-    'url'               => '/user/{id}/reset-login-attempts',
+    'url'               => '/admin/user/{id}/reset-login-attempts',
     'is_auth'           => true,
     'roles'             => ['superuser'],
     'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@requestAResetLoginAttempt',
