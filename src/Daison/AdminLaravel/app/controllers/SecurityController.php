@@ -65,7 +65,7 @@ class SecurityController extends BaseController
     try {
 
       # check if the email exists, else throw ModelNotFoundException
-      $this->user = \User::whereRaw('email = ?', [$email])->firstOrFail();
+      $this->user = User::whereRaw('email = ?', [$email])->firstOrFail();
 
 
       # check if the user is prevented to login
