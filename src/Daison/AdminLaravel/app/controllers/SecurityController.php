@@ -1,7 +1,7 @@
 <?php namespace Daison\AdminLaravel\App\Controllers;
 
+use Carbon\Carbon;
 use Daison\AdminLaravel\App\Models\User;
-
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
