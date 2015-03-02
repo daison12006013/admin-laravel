@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RoleController extends BaseController
 {
 
   private function _getRole($id)
   {
-    $role = Role::find($id);
+    $role = Role::findOrFail($id);
 
     if (! $role) {
       throw new Exception('Role not found');
@@ -57,6 +58,13 @@ class RoleController extends BaseController
 
     if (count(explode(' ', $role_name)) > 1) {
       return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_space_err_msg'));
+    }
+
+    try {
+      Role::where('name', '=', $role_name)->firstOrFail();
+      return $redirect_to->withError(Config::get('admin-laravel::lang/lang.role_add_exists'));
+    } catch (ModelNotFoundException $e) {
+      # do nothing
     }
 
     $role = new Role;

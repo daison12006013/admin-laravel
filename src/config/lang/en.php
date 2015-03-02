@@ -48,5 +48,6 @@ return [
   'role_add_info_msg'           => 'You have successfully added a new role',
   'role_add_space_err_msg'      => 'A role should not contain any space',
   'role_not_found'              => 'No roles found.',
+  'role_add_exists'             => 'Role name already exists',
 
 ];
