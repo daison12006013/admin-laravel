@@ -42,7 +42,7 @@ class UserController extends BaseController
 
   private function _findUser($id)
   {
-    $user = User::find($id);
+    $user = User::findOrFail($id);
     if (! $user) {
       throw new \Exception('User not found');
     }
@@ -309,10 +309,12 @@ class UserController extends BaseController
   {
     $user = $this->_findUser($id);
 
-    $role = new UserHasRole;
-    $role->user_id = $id;
-    $role->role_id = Input::get('role_id');
-    $role->save();
+    foreach (Input::get('role_id') as $role_id) {
+      $role = new UserHasRole;
+      $role->user_id = $id;
+      $role->role_id = $role_id;
+      $role->save();
+    }
 
     return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_saved'));
   }
