@@ -396,49 +396,4 @@ class UserController extends BaseController
     return $redirect_to->withSuccess($msg);
   }
 
-  public function requestAResetPassword()
-  {
-    $user_id = Input::get('id');
-
-    $new_password = Config::get('admin-laravel::general.password_settings.reset_prefix') . str_random(30);
-    $password_token = str_random(50);
-    
-
-    try {
-      $user = User::findOrFail($user_id);
-      $user->password = Hash::make($new_password);
-      $user->save();
-    } catch (ModelNotFoundException $e) {
-
-      # In the first place, the $user_id should be correct
-      # We don't need to show any message
-      # Just log the error
-      Log::error($e->getMessage());
-      throw $e;
-    }
-
-    $expires_at = Carbon::now()->addHours(Config::get('admin-laravel::general.password_settings.reset_session_hours'));
-    Cache::put($password_token, $user_id, $expires_at);
-
-    Mail::send(
-      'admin-laravel::emails.reset_password', 
-      array(
-        'user' => $user,
-        'password_token' => $password_token,
-      ),
-      function($message) use ($user) {
-        $message->from(Config::get('admin-laravel::general.email.from'), Config::get('admin-laravel::general.email.name'));
-        $message
-          ->to($user->email, $user->first_name . ' ' . $user->last_name)
-          ->subject('Administrator Password Reset');
-      }
-    );
-
-    return Response::JSON([
-      'success' => true,
-      'message' => HTML::decode(parse_text(Config::get('admin-laravel::lang/lang.password_reset_req_success'), ['password' => $new_password])),
-    ]);
-  }
-
-
 }

@@ -7,9 +7,11 @@ return [
         'url' => '/admin/dashboard',
     ],
 
-    // ----------------------------------------------------------------
-    // DO NOT EDIT BELOW THIS AREA IF YOU DONT KNOW WHAT YOU ARE DOING
-    // ----------------------------------------------------------------
+    /* 
+    | ----------------------------------------------------------------
+    | DO NOT EDIT BELOW THIS AREA IF YOU DONT KNOW WHAT YOU ARE DOING
+    | ----------------------------------------------------------------
+    */
     'settings' => [
         'name' => 'Settings',
         'icon' => 'fa fa-cogs fa-fw',
@@ -25,27 +27,15 @@ return [
     'users' => [
         'name' => 'Users',
         'icon' => 'fa fa-users fa-fw',
-        'url' => '#',
+        'url' => '/admin/user/lists',
         'roles' => ['superuser'],
-        'items' => [
-            'lists' => [
-                'name' => 'Lists',
-                'url' => '/admin/user/lists',
-            ],
-        ],
     ],
 
     'roles_nav' => [
         'name' => 'Roles',
         'icon' => 'fa fa-list fa-fw',
-        'url' => '#',
+        'url' => '/admin/role/lists',
         'roles' => ['superuser'],
-        'items' => [
-            'lists' => [
-                'name' => 'Lists',
-                'url' => '/admin/role/lists',
-            ],
-        ],
     ],
 
 ];
