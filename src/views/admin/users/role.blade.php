@@ -17,7 +17,7 @@ hr {
 <hr>
 <div class="form-group">
   <label>Search Panel</label>
-  <input type="text" class="form-control">
+  <input type="text" id="searchPanel" class="form-control">
 </div>
 
 <div class="row">
@@ -44,7 +44,7 @@ hr {
       ?>
 
       <?php 
-        $final_counter = 12;
+        $columns = 4;
         $counter = 0;
       ?>
       @foreach ($available_roles as $idx => $role)
@@ -61,16 +61,17 @@ hr {
             <?php $checked = 'checked' ?>
           @endif
           <div class="checkbox">
-            <label>
-              <input name="role_id[]" {{$checked}} value="{{$role['id']}}" type="checkbox"> {{$role['name']}}
+            <label class="labelCheckbox">
+              <input name="role_id[]" {{$checked}} value="{{$role['id']}}" type="checkbox">
+              <span class="roleName">{{$role['name']}}</span>
             </label>
           </div>
         </div>
 
 
         {{-- End the row div --}}
-        <?php $counter += 3 ?>
-        @if ($counter == $final_counter || $idx == (count($available_roles)-1) )
+        <?php $counter++ ?>
+        @if ($counter == $columns || $idx == (count($available_roles)-1) )
           <?php $counter = 0 ?>
           </div>
         @endif
@@ -86,5 +87,18 @@ hr {
 
 @section('javascript')
 <script type="text/javascript">
+  $(function() {
+    $("#searchPanel").on('keyup', function() {
+      var value_inserted = $(this).val();
+      $.each($('.roleName'), function(idx, val) {
+        var str = $(val).text();
+        if (str.toLowerCase().indexOf(value_inserted) >= 0) {
+          $(this).closest(' .col-sm-3').show();
+        } else {
+          $(this).closest('.col-sm-3').hide();
+        }
+      });
+    });
+  });
 </script>
 @stop
