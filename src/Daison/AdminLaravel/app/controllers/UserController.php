@@ -309,11 +309,35 @@ class UserController extends BaseController
   {
     $user = $this->_findUser($id);
 
+    # delete roles
+    $roles = UserHasRole::where('user_id', '=', $id)->get();
+    foreach ($roles as $role) {
+      $is_found = false;
+      foreach (Input::get('role_id') as $role_id) {
+        if ($role_id == $role['id']) {
+          $is_found = true;
+          break;
+        }
+      }
+
+      if ($is_found == false) {
+        $role->delete();
+      }
+    }
+
+    # add new roles
     foreach (Input::get('role_id') as $role_id) {
-      $role = new UserHasRole;
-      $role->user_id = $id;
-      $role->role_id = $role_id;
-      $role->save();
+      try {
+        $role = UserHasRole::where('user_id', '=', $id)->where('role_id', '=', $role_id)->firstOrFail();
+        # do nothing
+      } catch (ModelNotFoundException $e) {
+        
+        # if fail, create the role
+        $role = new UserHasRole;
+        $role->user_id = $id;
+        $role->role_id = $role_id;
+        $role->save();
+      }
     }
 
     return Redirect::to(URL::previous())->withSuccess(Config::get('admin-laravel::lang/lang.role_saved'));
