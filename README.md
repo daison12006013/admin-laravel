@@ -31,7 +31,7 @@ Update your composer
 <br>
 Go to <b>/app/config/app.php</b> and add this line
 ```
-    'Daison\AdminLaravel\AdminServiceProvider',
+    'Daison\AdminLaravel\AdminLaravelServiceProvider',
 ```
 <br>
 Go to your command line and publish the config, view and assets
