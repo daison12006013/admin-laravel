@@ -61,12 +61,12 @@ return [
     'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@showLists',
   ],
 
-  'admin_user_reset_password' => [
+  'admin_user_reset_login_attempt' => [
     'process'           => 'get',
-    'url'               => '/admin/user/reset-password',
+    'url'               => '/admin/user/{id}/reset-login-attempts',
     'is_auth'           => true,
     'roles'             => ['superuser'],
-    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@requestAResetPassword',
+    'uses'              => 'Daison\AdminLaravel\App\Controllers\UserController@requestAResetLoginAttempt',
   ],
 
   'admin_user_forgot_password' => [

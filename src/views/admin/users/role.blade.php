@@ -4,16 +4,22 @@
 @stop
 
 @section('css_internal')
-@stop
-
-@section('content_title')
+<style type="text/css">
+hr {
+  border-color: #e4e4e4;
+}
+</style>
 @stop
 
 @section('content')
-<?php 
-  // $current_url = URL::to(Route::getCurrentRoute()->getPath());
-?>
 <a href="{{URL::to(Config::get('admin-laravel::routes.admin_user_lists.url'))}}" class="btn btn-default"><span class="fa fa-chevron-left fa-w"></span> Back</a>
+
+<hr>
+<div class="form-group">
+  <label>Search Panel</label>
+  <input type="text" id="searchPanel" class="form-control">
+</div>
+
 <div class="row">
   @if (Session::has('success'))
   <div class="alert alert-success">
@@ -27,49 +33,52 @@
   </div>
   @endif
 
-  <div class="col-sm-5">
-    <h4>Groups:</h4>
-    <div class="">
-      <table class="table table-bordered">
-        @forelse ($user_roles as $role)
-          <tr>
-            <td>{{$role['name']}}</td>
-            <td style="width:1px;">
-              <a href="{{URL::current()}}/{{$role['id']}}/delete" class="btn btn-sm btn-danger">Delete</a>
-            </td>
-          </tr>
-        @empty
-          <tr>
-            <td><i>{{Config::get('admin-laravel::lang/lang.role_not_found')}}</i></td>
-          </tr>
-        @endforelse
-      </table>
-    </div>
-  </div>
-
-  <div class="col-sm-7">
+  <div class="col-sm-12">
     {{Form::open(['autocomplete' => 'off'])}}
-      <div class="form-group">
-        <h4>Add a group</h4>
-        <select class="form-control" name="role_id">
-          <?php 
-            $_user_roles = [];
-            foreach ($user_roles as $role) {
-              $_user_roles[] = $role['name'];
-            }
-          ?>
 
-          <option>--- Select ---</option>
-          @foreach ($available_roles as $role)
-            @if (in_array($role['name'], $_user_roles))
-              <?php continue ?>
-            @endif
-            <option value="{{$role['id']}}">{{$role['name']}}</option>
-          @endforeach
-        </select>
-      </div>
+      <?php
+        $_user_roles = [];
+        foreach ($user_roles as $role) {
+          $_user_roles[] = $role['name'];
+        }
+      ?>
 
-      <button class="btn btn-success pull-right" type="submit">Add</button>
+      <?php 
+        $columns = 4;
+        $counter = 0;
+      ?>
+      @foreach ($available_roles as $idx => $role)
+        {{-- Start the row div --}}
+        @if ($counter == 0)
+          <div class="row">
+        @endif
+
+
+
+        <div class="col-sm-3">
+          <?php $checked = '' ?>
+          @if (in_array($role['name'], $_user_roles))
+            <?php $checked = 'checked' ?>
+          @endif
+          <div class="checkbox">
+            <label class="labelCheckbox">
+              <input name="role_id[]" {{$checked}} value="{{$role['id']}}" type="checkbox">
+              <span class="roleName">{{$role['name']}}</span>
+            </label>
+          </div>
+        </div>
+
+
+        {{-- End the row div --}}
+        <?php $counter++ ?>
+        @if ($counter == $columns || $idx == (count($available_roles)-1) )
+          <?php $counter = 0 ?>
+          </div>
+        @endif
+      @endforeach
+
+      <hr>
+      <button class="btn btn-success pull-right" type="submit">Update</button>
     {{Form::close()}}
   </div>
 
@@ -78,5 +87,18 @@
 
 @section('javascript')
 <script type="text/javascript">
+  $(function() {
+    $("#searchPanel").on('keyup', function() {
+      var value_inserted = $(this).val();
+      $.each($('.roleName'), function(idx, val) {
+        var str = $(val).text();
+        if (str.toLowerCase().indexOf(value_inserted) >= 0) {
+          $(this).closest(' .col-sm-3').show();
+        } else {
+          $(this).closest('.col-sm-3').hide();
+        }
+      });
+    });
+  });
 </script>
 @stop

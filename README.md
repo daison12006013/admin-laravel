@@ -145,7 +145,7 @@ Based from our navigation links, we need to create a route to assign the control
 Go to your controller `__construct` and do the constructor injection.
 
 ```
-  use Daison\Admin\Admin;
+  use Daison\AdminLaravel\AdminLaravel as Admin;
   
   class MyController
   {

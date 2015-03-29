@@ -2,13 +2,14 @@
 
 return [
 
-
   /*---------------------------------------------------------------------------------
   | Login Messages
   |----------------------------------------------------------------------------------
    */
-  'user_not_found_message'    => 'Please check your email or password.',
-  'login_notifier'            => 'Please login to access the page.',
+  'user_not_found'              => 'Please check your email or password.',
+  'login_notifier'              => 'Please login to access the page.',
+  'login_throttling'            => 'You need to wait atleast {time} you can login.',
+  'login_attemp_reset'          => 'You have successfully resetted the login attempt of this user.',
 
 
   /*---------------------------------------------------------------------------------
@@ -26,24 +27,27 @@ return [
   'password_forgot_req_success' => 'You have successfully requested a password reset, an email sent. The session to change your password will expire within ' . Config::get('admin-laravel::general.password_settings.reset_session_hours') . 'hours.',
   'password_nouser_forgot_req'  => 'Email not found, please try again.',
 
+
   /*---------------------------------------------------------------------------------
   | Users
   |----------------------------------------------------------------------------------
    */
-  'user_add_err_msg'          => 'Email already exists.',
-  'user_add_info_msg'         => 'You have successfully added a new account',
-  'user_changed_info_msg'     => 'You have successfully changed this profile.',
+  'user_add_err_msg'            => 'Email already exists.',
+  'user_add_info_msg'           => 'You have successfully added a new account',
+  'user_changed_info_msg'       => 'You have successfully changed this profile.',
 
 
   /*---------------------------------------------------------------------------------
   | Roles
   |----------------------------------------------------------------------------------
    */
-  'role_saved'                => 'You have successfully assigned a role',
-  'role_deleted'              => 'You have successfully deleted an assigned role',
-  'role_edit_info_msg'        => 'You have successfully changed role name',
-  'role_add_err_msg'          => 'Please provide us a role name',
-  'role_add_info_msg'         => 'You have successfully added a new role',
-  'role_add_space_err_msg'    => 'A role should not contain any space',
-  'role_not_found'            => 'No roles found.',
+  'role_saved'                  => 'You have successfully assigned a role',
+  'role_deleted'                => 'You have successfully deleted an assigned role',
+  'role_edit_info_msg'          => 'You have successfully changed role name',
+  'role_add_err_msg'            => 'Please provide us a role name',
+  'role_add_info_msg'           => 'You have successfully added a new role',
+  'role_add_space_err_msg'      => 'A role should not contain any space',
+  'role_not_found'              => 'No roles found.',
+  'role_add_exists'             => 'Role name already exists',
+
 ];
