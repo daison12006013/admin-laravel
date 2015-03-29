@@ -18,7 +18,7 @@ Anyhow, I'm using this design <a href="http://www.blacktie.co/demo/dashgumfree/"
 Include this to your composer, if you want the most updated branch, use ``dev-master``
 ```
   	"require": {
-  		"daison/admin-laravel": "1.2.0"
+  		"daison/admin-laravel": "1.2.*"
   	}
 ```
 
@@ -31,7 +31,7 @@ Update your composer
 <br>
 Go to <b>/app/config/app.php</b> and add this line
 ```
-    'Daison\Admin\AdminServiceProvider',
+    'Daison\AdminLaravel\AdminLaravelServiceProvider',
 ```
 <br>
 Go to your command line and publish the config, view and assets
@@ -145,7 +145,7 @@ Based from our navigation links, we need to create a route to assign the control
 Go to your controller `__construct` and do the constructor injection.
 
 ```
-  use Daison\Admin\Admin;
+  use Daison\AdminLaravel\AdminLaravel as Admin;
   
   class MyController
   {
