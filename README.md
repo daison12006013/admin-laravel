@@ -11,7 +11,7 @@
 # Laravel Admin
 I'm still keep on updating this admin package, when you are using the ``dev-master`` you will see some sample routes and navigation links, those are my examples to test all the functionality of this package. Each release has a branch and you need to switch for the said branch you used for specific README file.
 
-Anyhow, I'm using this design <a href="http://www.blacktie.co/demo/dashgumfree/">http://www.blacktie.co/demo/dashgumfree/</a> as my basis, so try to review the code, later on I'll be importing other admin templates that you can easily configure. Thumbs Up!
+Anyhow, I'm using this design <a href="http://www.blacktie.co/demo/dashgum/">http://www.blacktie.co/demo/dashgumfree/</a> as my basis, so try to review the code, later on I'll be importing other admin templates that you can easily configure. Thumbs Up!
 
 
 # Start Up
